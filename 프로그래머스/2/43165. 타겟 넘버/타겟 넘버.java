@@ -1,5 +1,4 @@
 class Solution {
-    static boolean[] visited;
     static int answer = 0;
     public int solution(int[] numbers, int target) {
         dfs(0, numbers, target, 0);
