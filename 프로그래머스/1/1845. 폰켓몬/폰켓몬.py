@@ -1,11 +1,13 @@
 def solution(nums):
-    get = []
+#     get = []
     
-    for i in nums:
-        if i not in get:
-            get.append(i)
+#     for i in nums:
+#         if i not in get:
+#             get.append(i)
     
-    if len(get) < len(nums) / 2:
-        return len(get)
-    else:
-        return len(nums) / 2
+#     if len(get) < len(nums) / 2:
+#         return len(get)
+#     else:
+#         return len(nums) / 2
+    
+    return min(len(nums) / 2, len(set(nums)))
