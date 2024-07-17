@@ -24,7 +24,7 @@ def solution(new_id):
         answer = answer[:-1]
     # 5단계
     if len(answer) == 0:
-        answer += "a"
+        answer = "a"
     # 6단계
     if len(answer) > 15:
         if answer[14] == '.':
@@ -33,8 +33,7 @@ def solution(new_id):
         else:
             answer = answer[:15]
     # 7단계
-    last_word = answer[-1]
     while len(answer) <= 2:
-        answer += last_word
+        answer += answer[-1]
         
     return answer
