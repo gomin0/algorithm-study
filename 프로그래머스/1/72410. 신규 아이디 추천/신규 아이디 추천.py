@@ -7,14 +7,16 @@ def solution(new_id):
     # 2단계
     for i in new_id:
         if i.isalpha() or i.isdigit() or i in ["-", "_", "."]:
-            two_id += i
+            answer += i
     # 3단계
-    prev_char = ''
-    for char in two_id:
-        if char == '.' and prev_char == '.':
-            continue
-        answer += char
-        prev_char = char
+    # prev_char = ''
+    # for char in two_id:
+    #     if char == '.' and prev_char == '.':
+    #         continue
+    #     answer += char
+    #     prev_char = char
+    while '..' in answer:
+        answer = answer.replace('..', '.')
     # 4단계
     if len(answer) > 0 and answer[0] == '.':
         answer = answer[1:]
@@ -27,6 +29,7 @@ def solution(new_id):
     if len(answer) > 15:
         if answer[14] == '.':
             answer = answer[:14]
+            # 이랬는데 뒤에 또 .이면 어캄?
         else:
             answer = answer[:15]
     # 7단계
