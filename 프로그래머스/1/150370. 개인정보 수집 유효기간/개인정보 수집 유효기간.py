@@ -1,21 +1,14 @@
 def solution(today, terms, privacies):
     answer = []
-    
-    today_day = [''] * 3
-    c = 0
-    for a in today:
-        if a.isdigit():
-            today_day[c] += a
-        else:
-            c += 1
-
     type_of_word = {}
-
+    
+    today_day = today.split('.')
+            
+    sum_today = (int(today_day[0]) - 1) * 12 * 28 + int(today_day[1]) * 28 + int(today_day[2])
+    
     for term in terms:
         word_type, duration = term.split()
         type_of_word[word_type] = int(duration)
-            
-    sum_today = (int(today_day[0]) - 1) * 12 * 28 + int(today_day[1]) * 28 + int(today_day[2])
         
     for index, i in enumerate(privacies, 1):
         date, alpha_type = i.split()
