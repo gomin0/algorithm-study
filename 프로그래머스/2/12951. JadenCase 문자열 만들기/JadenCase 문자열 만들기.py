@@ -8,3 +8,6 @@ def solution(s):
             answer += s[i].lower() if s[i].isalpha() else s[i]
             
     return answer
+
+    # ㄷㄷ 근데 막힘
+    # return s.title()
