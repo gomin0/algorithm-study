@@ -33,6 +33,8 @@ def solution(topping):
 #     return answer
 
 # 살짝 빨라짐 for문 안에 pop때문에 O(n^2)
+# pop(0) 은 앞에거 빼고 뒤에것들 앞당기기 까지 해야해서 O(n)
+# pop()은 뒤에거 빼기만 하니까 O(1)
 # def solution(topping):
 #     answer = 0
 #     cake = set()
