@@ -1,10 +1,10 @@
 # [level 2] 가장 큰 수 - 42746 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42746) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/42746?language=python3) 
 
 ### 성능 요약
 
-메모리: 75.4 MB, 시간: 1.94 ms
+메모리: 21.2 MB, 시간: 772.31 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 04월 04일 21:50:26
+2024년 08월 12일 10:04:06
 
 ### 문제 설명
 
