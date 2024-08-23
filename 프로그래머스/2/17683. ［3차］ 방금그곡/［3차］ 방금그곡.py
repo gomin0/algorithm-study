@@ -28,7 +28,7 @@ def solution(m, musicinfos):
 
     length = len(music_list)
     if length == 0:
-        return "(None)"
+        return "(None)" # 이것도 좀.. ㅋㅋ
     elif length == 1:
         return music_list[0][0]
     else:
