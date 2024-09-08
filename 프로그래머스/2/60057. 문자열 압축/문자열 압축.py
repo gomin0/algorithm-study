@@ -2,6 +2,8 @@ def solution(s):
     answer = float('inf')
     
     length = len(s)
+    
+    # 이거 처리 안하면 테스트 5에서 런타임 에러
     if length == 1:
         return 1
     
