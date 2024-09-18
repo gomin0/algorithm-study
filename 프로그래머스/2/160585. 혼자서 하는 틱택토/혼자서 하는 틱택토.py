@@ -6,11 +6,12 @@ def solution(board):
     for b in board:
         O_count += b.count('O')
         X_count += b.count('X')
-        
-    if O_count + X_count == 0:
-        return 1
     
-    if (O_count + X_count) % 2 == 0:
+    ox_sum = O_count + X_count
+        
+    if ox_sum == 0:
+        return 1
+    elif (O_count + X_count) % 2 == 0:
         if O_count != X_count:
             return 0
     else:
