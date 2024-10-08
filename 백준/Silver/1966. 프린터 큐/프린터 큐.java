@@ -1,51 +1,61 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-
+    public static void main(String[] ars) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
 
         int T = Integer.parseInt(br.readLine());
 
-        for(int i = 0; i < T; i++) {
+        for (int t = 0; t < T; t++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
+            int n = Integer.parseInt(st.nextToken());
+            int idx = Integer.parseInt(st.nextToken());
+            int count = 1;
 
-            int N = Integer.parseInt(st.nextToken());
-            int M = Integer.parseInt(st.nextToken());
-            int count = 0;
-
-            Queue<int[]> queue = new LinkedList<>();
+            Queue<Integer> queue = new LinkedList<>();
             st = new StringTokenizer(br.readLine());
-
-            for(int j = 0; j < N; j++) {
-                queue.add(new int[] {j, Integer.parseInt(st.nextToken())});
+            for (int i = 0; i < n; i++) {
+                queue.add(Integer.parseInt(st.nextToken()));
             }
 
-            while (!queue.isEmpty()) {
-                int[] now = queue.poll();
-                boolean able = true;
+            while (true) {
+                int maxPri = findMax(queue);
+                int now = queue.poll();
 
-                for(int[] q : queue) {
-                    if(q[1] > now[1]) {
-                        able = false;
-                    }
-                }
-                if(able) {
-                    count++;
-                    if(now[0] == M) {
-                        break;
-                    }
-                } else {
+                if (now < maxPri) {
                     queue.add(now);
+                    if (idx == 0) {
+                        idx = queue.size() - 1;
+                    } else {
+                        idx--;
+                    }
                 }
+                else {
+                    if (idx == 0) {
+                        System.out.println(count);
+                        break;
+                    } else {
+                        idx--;
+                        count++;
+                    }
+                }
+
+
             }
-            System.out.println(count);
         }
+
     }
+
+    public static int findMax(Queue<Integer> queue) {
+        int max = 1;
+
+        for (int num : queue) {
+            if (num > max) {
+                max = num;
+            }
+        }
+        return max;
+    }
+
 }
