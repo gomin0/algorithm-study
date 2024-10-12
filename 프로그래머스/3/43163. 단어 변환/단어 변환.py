@@ -13,18 +13,18 @@ def solution(begin, target, words):
     if target not in words:
         return 0
     
-    queue = deque([(begin, 0)])  # 단어, 변환 수
+    queue = deque([(begin, 0)])
     visited = set([begin])
-    
+
     while queue:
-        word, count = queue.popleft()
+        now_word, count = queue.popleft()
         
-        if word == target:
+        if now_word == target:
             return count
         
-        for w in words:
-            if w not in visited and word_diff(word, w):
-                visited.add(w)
-                queue.append((w, count + 1))
-
+        for next_word in words:
+            if word_diff(next_word, now_word):
+                queue.append((next_word, count + 1))
+                visited.add(next_word)
+    
     return 0
