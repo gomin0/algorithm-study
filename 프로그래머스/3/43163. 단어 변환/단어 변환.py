@@ -5,8 +5,6 @@ def word_diff(word1, word2):
     for w1, w2 in zip(word1, word2):
         if w1 != w2:
             diff_count += 1
-        if diff_count > 1:
-            return False
     return diff_count == 1
 
 def solution(begin, target, words):
