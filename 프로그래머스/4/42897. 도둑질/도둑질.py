@@ -20,5 +20,4 @@ def solution(money):
         
     answer = max(dp1[n - 2], dp2[n - 1])
     
-    
     return answer
