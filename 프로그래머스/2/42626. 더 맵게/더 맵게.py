@@ -1,4 +1,4 @@
-# 아으 모르겠다 heapq O(logn) 최소 힙에서 제일 앞에값은 항상 최소값(정렬은 아님)
+
 import heapq
 
 def solution(scoville, K):
