@@ -1,37 +1,16 @@
 import java.util.*;
 
 public class Solution {
-    public ArrayList<Integer> solution(int []arr) {
-        int[] answer = {};
-        ArrayList<Integer> answerList = new ArrayList<>();
-        answerList.add(arr[0]);
+    public List<Integer> solution(int []arr) {
+        List<Integer> answer = new ArrayList<>();
         
-        for(int i = 1; i < arr.length; i++) {
-            if(arr[i] != arr[i-1]) {
-                answerList.add(arr[i]);
+        answer.add(arr[0]);
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] != arr[i - 1]) {
+                answer.add(arr[i]);
             }
         }
 
-        return answerList;
+        return answer;
     }
 }
-
-// import java.util.*;
-
-// public class Solution {
-//     public int[] solution(int []arr) {
-//         List<Integer> answerList = new ArrayList<>();
-//         answerList.add(arr[0]);
-//         for (int i = 1; i < arr.length; i++) {
-//             if (arr[i] != arr[i - 1]) {
-//                 answerList.add(arr[i]);
-//             }
-//         }
-//         int[] answer = new int[answerList.size()];
-//         for (int i = 0; i < answerList.size(); i++) {
-//             answer[i] = answerList.get(i);
-//         }
-        
-//         return answer;
-//     }
-// }
