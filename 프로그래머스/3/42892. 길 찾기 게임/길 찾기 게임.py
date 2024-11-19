@@ -1,5 +1,6 @@
 import sys
 sys.setrecursionlimit(10**6)
+# 파이썬의 기본 재귀 깊이 제한은 1000 노드가 최대 10,000개까지 있을 수 있어서 재귀 제한을 늘려주기
 
 class Node:
     def __init__(self, info, idx):
@@ -13,21 +14,18 @@ def solution(nodeinfo):
     nodes = [(x, y, i+1) for i, (x, y) in enumerate(nodeinfo)]
     nodes.sort(key=lambda x: (-x[1], x[0]))
     
-    def make_tree(nodes, head=None):
+    def make_tree(nodes):
         if not nodes:
             return None
         
         node_x, node_y, idx = nodes[0]
         node = Node([node_x, node_y], idx)
-        
-        if head is None:
-            head = node
             
         left_nodes = [n for n in nodes[1:] if n[0] < node_x]
         right_nodes = [n for n in nodes[1:] if n[0] > node_x]
         
-        node.left = make_tree(left_nodes, head)
-        node.right = make_tree(right_nodes, head)
+        node.left = make_tree(left_nodes)
+        node.right = make_tree(right_nodes)
         
         return node
     
