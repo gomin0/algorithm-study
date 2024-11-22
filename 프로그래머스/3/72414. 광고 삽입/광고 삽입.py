@@ -1,3 +1,4 @@
+# 누적합, 시작 시간 부터 끝 시간 - 1
 def solution(play_time, adv_time, logs):
     answer = ''
     
