@@ -1,38 +1,70 @@
+# 플로이드 워셜
+def floyd_warshall(graph, N):
+    for k in range(1, N+1):
+        for i in range(1, N+1):
+            for j in range(1, N+1):
+                graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j])
+    return graph
+    
+
+def solution(N, road, K):
+    answer = 0
+
+    graph = [[float('inf')] * (N+1) for _ in range(N+1)]
+    
+    for i in range(1, N+1):
+        graph[i][i] = 0
+        
+    for start, end, time in road:
+        graph[start][end] = min(graph[start][end], time)
+        graph[end][start] = min(graph[end][start], time)
+    
+    graph = floyd_warshall(graph, N)
+    
+    for j in range(1, N + 1):
+        if graph[1][j] <= K:
+            answer += 1
+
+    return answer
+
+
+# 다익스트라
 import heapq
 from collections import defaultdict
 
 def dijkstra(start, N, graph):
-    distance = {i: float('inf') for i in range(1, N+1)}
+    
+    distance = {i: float('inf') for i in range(1, N + 1)}
     distance[start] = 0
     
     queue = []
-    heapq.heappush(queue, (0, start))
+    heapq.heappush(queue, (start, 0))
+    
     while queue:
-        now_distance, now_node = heapq.heappop(queue)
+        now_node, now_distance = heapq.heappop(queue)
         if now_distance > distance[now_node]:
             continue
         
-        for next_distance, next_node in graph[now_node]:
+        for next_node, next_distance in graph[now_node]:
             dist = now_distance + next_distance
             if dist < distance[next_node]:
                 distance[next_node] = dist
-                heapq.heappush(queue, (dist, next_node))
-                
-    return distance
+                heapq.heappush(queue, (next_node, dist))
     
-def solution(N, road, K):
+    return distance
+
+def solution2(N, road, K):
     answer = 0
 
     graph = defaultdict(list)
-    
     for start, end, time in road:
-        graph[start].append((time, end))
-        graph[end].append((time, start))
-
+        graph[start].append((end, time))
+        graph[end].append((start, time))
+        
     distance = dijkstra(1, N, graph)
     
-    for d in distance.values():
-        if d <= K:
+    for i in distance.values():
+        if i <= K:
             answer += 1
-    
+
     return answer
