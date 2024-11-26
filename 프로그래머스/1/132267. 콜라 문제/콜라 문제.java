@@ -4,7 +4,7 @@ class Solution {
         
         while (n >= a) {
             int bottle = (n / a) * b;
-            int rest = n % a;
+            int rest = n % a;  // 나머지
             answer += bottle;
             n = rest + bottle;
         }
