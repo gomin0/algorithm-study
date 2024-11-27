@@ -1,5 +1,6 @@
 from collections import deque
 
+# 포인트는 네방향을 모두 넣지 않는 것
 def solution(n, m, x, y, r, c, k):
     # 방향 정의 및 사전순 탐색 보장
     direct = {(1, 0): 'd', (0, -1): 'l', (0, 1): 'r', (-1, 0): 'u'}
