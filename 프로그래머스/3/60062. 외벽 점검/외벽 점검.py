@@ -19,5 +19,4 @@ def solution(n, weak, dist):
                 else:
                     answer = min(answer, count)
                     break
-    
     return answer if answer != float('inf') else -1
