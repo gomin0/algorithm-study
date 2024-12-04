@@ -1,11 +1,14 @@
-from collections import deque
+from collections import defaultdict, deque
 
-def word_diff(word1, word2):
-    diff_count = 0
-    for w1, w2 in zip(word1, word2):
-        if w1 != w2:
-            diff_count += 1
-    return diff_count == 1
+def can_change(str1, str2):
+    count = 0
+    for i in range(len(str1)):
+        if str1[i] != str2[i]:
+            count += 1
+        if count > 1:
+            return False
+    
+    return count == 1
 
 def solution(begin, target, words):
     answer = 0
@@ -13,18 +16,33 @@ def solution(begin, target, words):
     if target not in words:
         return 0
     
-    queue = deque([(begin, 0)])
-    visited = set([begin])
-
-    while queue:
-        now_word, count = queue.popleft()
-        
-        if now_word == target:
-            return count
-        
-        for next_word in words:
-            if word_diff(next_word, now_word):
-                queue.append((next_word, count + 1))
-                visited.add(next_word)
+    change_dict = defaultdict(list)
     
-    return 0
+    def bfs(start, change_dict):
+        queue = deque([(start, 0)])
+        visited = set([start])
+        
+        while queue:
+            start_str, count = queue.popleft()
+            if start_str == target:
+                return count
+            
+            for next_str in change_dict[start_str]:
+                if next_str not in visited:
+                    queue.append((next_str, count + 1))
+                    visited.add(next_str)
+    
+        return 0
+    
+    
+    for word in words:
+        if can_change(begin, word):
+            change_dict[begin].append(word)
+    
+    for i in range(len(words) - 1):
+        for j in range(i + 1, len(words)):
+            if can_change(words[i], words[j]):
+                change_dict[words[i]].append(words[j])
+                change_dict[words[j]].append(words[i])
+    
+    return bfs(begin, change_dict)
