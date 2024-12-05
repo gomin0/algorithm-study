@@ -12,9 +12,9 @@ def solution(m, n, puddles):
         for j in range(m):
             if dp[i][j] == -1:
                 continue
-            if dp[i-1][j] != -1 and i > 0:
+            if i > 0 and dp[i-1][j] != -1:
                 dp[i][j] += dp[i-1][j]
-            if dp[i][j-1] != -1 and j > 0:
+            if j > 0 and dp[i][j-1] != -1:
                 dp[i][j] += dp[i][j-1]
             dp[i][j] %= 1000000007
     
