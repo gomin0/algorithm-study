@@ -1,16 +1,17 @@
 def solution(n, s):
     
-    if n > s:
+    if s < n:
         return [-1]
-    if n == s:
-        return [1] * n
     
     a = s // n
     b = s % n
     
-    answer = [a] * n
-    
-    for i in range(b):
-        answer[i] += 1
-    
-    return sorted(answer)
+    answer = [a for _ in range(n)]
+    for i in range(n - 1, -1, -1):
+        if b > 0:
+            answer[i] += 1
+            b -= 1
+        else:
+            break
+        
+    return answer
