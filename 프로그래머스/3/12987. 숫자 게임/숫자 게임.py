@@ -3,14 +3,13 @@ def solution(A, B):
     
     A.sort()
     B.sort()
+    idx_a = 0
+    idx_b = 0
     
-    a_idx = 0
-    b_idx = 0
-    
-    while b_idx < len(A):
-        if B[b_idx] > A[a_idx]:
+    while idx_b < len(A):
+        if A[idx_a] < B[idx_b]:
             answer += 1
-            a_idx += 1
-        b_idx += 1
+            idx_a += 1
+        idx_b += 1
     
     return answer
