@@ -2,13 +2,12 @@ def solution(routes):
     answer = 1
     
     routes.sort(key=lambda x: x[1])
+    point = routes[0][1]
     
-    idx = 0
     for i in range(1, len(routes)):
-        end = routes[idx][1]
-        start = routes[i][0]
-        if end < start:
+        a, b = routes[i]
+        if point < a:
             answer += 1
-            idx = i
+            point = b
     
     return answer
