@@ -2,10 +2,8 @@ def solution(sticker):
     answer = 0
     
     n = len(sticker)
-    
-    if n == 1:
-        return sticker[0]
-    elif n == 2:
+
+    if n <= 3:
         return max(sticker)
     
     dp1 = [0 for _ in range(n)]

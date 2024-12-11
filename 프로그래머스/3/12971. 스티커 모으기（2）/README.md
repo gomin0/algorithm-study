@@ -1,10 +1,10 @@
 # [level 3] 스티커 모으기(2) - 12971 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12971) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12971#) 
 
 ### 성능 요약
 
-메모리: 16.7 MB, 시간: 63.77 ms
+메모리: 16.8 MB, 시간: 63.60 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 12월 11일 10:49:43
+2024년 12월 11일 10:50:52
 
 ### 문제 설명
 
