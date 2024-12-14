@@ -1,10 +1,10 @@
 # [level 1] 덧칠하기 - 161989 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/161989) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/161989?language=java) 
 
 ### 성능 요약
 
-메모리: 12.3 MB, 시간: 5.91 ms
+메모리: 92.4 MB, 시간: 3.27 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 07월 12일 17:31:36
+2024년 12월 14일 13:56:39
 
 ### 문제 설명
 
