@@ -1,39 +1,33 @@
-#크루스칼 알고리즘
-def find(parent, x):  # 루트 노드 찾기
-    if parent[x] != x:
-        parent[x] = find(parent, parent[x])
-    return parent[x]
+def find(parent, node):
+    if node != parent[node]:
+        parent[node] = find(parent, parent[node])
+    return parent[node]
+        
 
-def union(parent, rank, x, y):
-    rootx = find(parent, x)
-    rooty = find(parent, y)
+def union(x, y, parent, rank):
+    px = find(parent, x)
+    py = find(parent, y)
     
-    if rootx != rooty:
-        if rank[rootx] > rank[rooty]:
-            parent[rooty] = rootx
-        elif rank[rootx] < rank[rooty]:
-            parent[rootx] = rooty
+    if px != py:
+        if rank[px] > rank[py]:
+            parent[py] = px
+        elif rank[px] < rank[py]:
+            parent[px] = py
         else:
-            parent[rooty] = rootx
-            rank[rootx] += 1
-            
-def kruskal(n, edges):
-    parent = [i for i in range(n)]
-    rank = [0] * n
-    
-    edges.sort(key=lambda x: x[2])
-    
-    mst = []
-    total_weight = 0
-    
-    for edge in edges:
-        u, v, weight = edge
-        if find(parent, u) != find(parent,v):
-            union(parent, rank, u, v)
-            mst.append(edge)
-            total_weight += weight
-    return mst, total_weight
+            parent[py] = px
+            rank[px] += 1
 
 def solution(n, costs):
-    mst, total_weight = kruskal(n, costs)
-    return total_weight
+    answer = 0
+    
+    parent = [i for i in range(n)]
+    rank = [0 for _ in range(n)]
+    
+    costs.sort(key=lambda x:x[2])
+    
+    for x, y, cost in costs:
+         if find(parent, x) != find(parent, y):
+                union(x, y, parent, rank)
+                answer += cost
+    
+    return answer
