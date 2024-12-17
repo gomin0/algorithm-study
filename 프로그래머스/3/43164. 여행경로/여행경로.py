@@ -3,21 +3,20 @@ from collections import defaultdict
 def solution(tickets):
     answer = []
     
-    travel = defaultdict(list)
+    path = defaultdict(list)
     
-    for start, end in tickets:
-        travel[start].append(end)
-        
-    for key in travel:
-        travel[key].sort(reverse=True)
+    for a, b in tickets:
+        path[a].append(b)
     
-    path = []
-
+    for key in path:
+        path[key].sort(reverse=True)
+    
     def dfs(start):
-        while travel[start]:
-            next_start = travel[start].pop()
+        while path[start]:
+            next_start = path[start].pop()
             dfs(next_start)
-        path.append(start)
-        
-    dfs("ICN")
-    return path[::-1]
+        answer.append(start)
+    
+    dfs('ICN')
+    
+    return answer[::-1]
