@@ -30,5 +30,3 @@ def solution(board):
                 if next_price < prices[nx][ny][i]:
                     prices[nx][ny][i] = next_price
                     heapq.heappush(queue, (next_price, nx, ny, i))
-    
-    return min(costs[n-1][n-1])
