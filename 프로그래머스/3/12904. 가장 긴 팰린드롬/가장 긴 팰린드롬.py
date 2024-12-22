@@ -3,7 +3,7 @@ def check(string, left, right):
     while 0 <= left and right < n and string[left] == string[right]:
         left -= 1
         right += 1
-    return right - left - 1
+    return right - left - 1  # 한단계 더 +- 됐으니까
 
 def solution(s):
     answer = 0
