@@ -4,7 +4,6 @@ def solution(scores):
     wanho_sum = sum(wanho)
     
     scores.sort(key=lambda x: (-x[0], x[1]))
-    
     max_b = 0
     for a, b in scores:
         if wanho[0] < a and wanho[1] < b:
