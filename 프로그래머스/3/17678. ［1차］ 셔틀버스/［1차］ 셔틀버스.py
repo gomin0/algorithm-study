@@ -31,5 +31,6 @@ def solution(n, t, m, timetable):
         answer = minute_to_time(time - t)
     else:
         answer = minute_to_time(time_to_minute(timetable[idx-1]) - 1)
+        # answer = minute_to_time(time_to_minute(timetable[-1]) - 1) 이렇게 하면 마지막 사람이 마지막 버스에 못타는 사람일 수도 있으니까 idx로 해야함
     
     return answer
