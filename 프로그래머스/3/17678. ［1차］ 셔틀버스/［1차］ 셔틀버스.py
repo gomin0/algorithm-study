@@ -1,32 +1,35 @@
 def time_to_minute(time):
-    h, m = time.split(":")
-    return int(h) * 60 + int(m)
+    h, m = map(int, time.split(":"))
+    return h * 60 + m
 
 def minute_to_time(minute):
-    h = str(minute // 60)
-    m = str(minute % 60)
-    h = h.zfill(2)
-    m = m.zfill(2)
-    time = ""
-    time += h + ':' + m
-    return time
+    h = minute // 60
+    m = minute % 60
+    return f"{h:02}:{m:02}"
 
 def solution(n, t, m, timetable):
     answer = ''
     
-    sorted_arrive = sorted([time_to_minute(time) for time in timetable])
-    bus_time = [9*60 + t * i for i in range(n)]
+    timetable.sort()
     
+    time = 9*60
     idx = 0
-    for bt in bus_time:
-        count = 0
-        
-        while idx < len(sorted_arrive) and sorted_arrive[idx] <= bt and count < m:
-            idx += 1
-            count += 1
-        
-        if bt == bus_time[-1]:  # 마지막 버스이면
-            if count < m:
-                return minute_to_time(bt)
+    for i in range(n):
+        crew = 0
+        while idx < len(timetable):
+            bus = time_to_minute(timetable[idx])
+            if bus <= time:
+                idx += 1
+                crew += 1
+                if crew == m:
+                    break
             else:
-                return minute_to_time(sorted_arrive[idx-1] - 1)  # 마지막 사람보다 1분 빨리 도착해야함
+                break
+        time += t
+    
+    if crew < m:
+        answer = minute_to_time(time - t)
+    else:
+        answer = minute_to_time(time_to_minute(timetable[idx-1]) - 1)
+    
+    return answer
