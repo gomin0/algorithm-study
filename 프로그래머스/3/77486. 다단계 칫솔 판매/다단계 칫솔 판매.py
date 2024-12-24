@@ -1,21 +1,18 @@
 def solution(enroll, referral, seller, amount):
-    answer = []
+    n = len(enroll)
     
     money = {e: 0 for e in enroll}
-    ref = {enroll[i]: referral[i] for i in range(len(enroll))}
+    ref = {enroll[i]: referral[i] for i in range(n)}
     
-    def distribute(name, profit):
-        if profit < 1 or name == "-":
+    def distribute(name, price):
+        if price < 1 or name == "-":
             return
-        commission = profit // 10
-        money[name] += profit - commission
-        # 상위 추천인에게 남은 금액 배분
-        distribute(ref[name], commission)
-    
+        give = price // 10
+        money[name] += price - give
+        distribute(ref[name], give)
+        
     for i in range(len(seller)):
-        profit = amount[i] * 100
-        distribute(seller[i], profit)
-    
-    for price in money.values():
-        answer.append(price)
-    return answer
+        price = amount[i] * 100  # 개당 100원
+        distribute(seller[i], price)
+        
+    return [money[e] for e in enroll]
