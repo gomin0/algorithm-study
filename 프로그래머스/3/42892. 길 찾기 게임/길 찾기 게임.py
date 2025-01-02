@@ -1,6 +1,5 @@
 import sys
-sys.setrecursionlimit(10**6)
-# 파이썬의 기본 재귀 깊이 제한은 1000 노드가 최대 10,000개까지 있을 수 있어서 재귀 제한을 늘려주기
+sys.setrecursionlimit(10**6)  # 파이썬의 기본 재귀 깊이 제한은 1000 노드가 최대 10,000개까지 있을 수 있어서 재귀 제한을 늘려주기
 
 class Node:
     def __init__(self, info, idx):
