@@ -1,46 +1,44 @@
 def solution(n, k, cmd):
-    print(n)
     
-    table = {i: [i - 1, i + 1] for i in range(n)}  # 연결 리스트 처럼
-    table[0][0] = None  # 첫 번째 행은 이전이 없음
-    table[n-1][1] = None  # 마지막 행은 다음이 없음
+    table = {i:[i-1, i+1] for i in range(n)}
+    table[0][0] = None
+    table[n-1][1] = None
+    deleted = []  # 삭제 행
     
-    stack = []  # 삭제된 행 정보
-    current = k
+    pointer = k
+    for command in cmd:
+        if len(command) > 2:
+            c, degree = command.split()
+            degree = int(degree)
+            if c == "D":
+                for i in range(degree):
+                    pointer = table[pointer][1]
+            if c == "U":
+                for i in range(degree):
+                    pointer = table[pointer][0]
+        else:
+            if command == "C":
+                idx, u_idx, d_idx = pointer, table[pointer][0], table[pointer][1]
+                if u_idx != None:
+                    table[u_idx][1] = d_idx
+                if d_idx != None:
+                    table[d_idx][0] = u_idx
+                    
+                if d_idx == None:
+                    pointer = u_idx
+                else:
+                    pointer = d_idx
+                    
+                deleted.append((idx, u_idx, d_idx))
+            else:  # command == "D"
+                idx, u_idx, d_idx = deleted.pop()
+                if u_idx != None:
+                    table[u_idx][1] = idx
+                if d_idx != None:
+                    table[d_idx][0] = idx
     
-    for c in cmd:
-        parts = c.split()
-        if parts[0] == 'U':
-            x = int(parts[1])
-            while x > 0:
-                current = table[current][0]
-                x -= 1
-        elif c[0] == 'D':
-            x = int(parts[1])
-            while x > 0:
-                current = table[current][1]
-                x -= 1
-        elif parts[0] == 'C':
-            prev_link, next_link = table[current]
-            stack.append((current, prev_link, next_link))
-            
-            if prev_link is not None:
-                table[prev_link][1] = next_link
-            if next_link is not None:
-                table[next_link][0] = prev_link
-            
-            current = next_link if next_link is not None else prev_link
-        elif parts[0] == 'Z':
-            restore, prev_link, next_link = stack.pop()
-            
-            if prev_link is not None:
-                table[prev_link][1] = restore
-            if next_link is not None:
-                table[next_link][0] = restore
-    
-    answer = ['O' for _ in range(n)]
-    while stack:
-        deleted_row = stack.pop()[0]
-        answer[deleted_row] = 'X'
+    answer = ["O"] * n
+    for d in deleted:
+        answer[d[0]] = "X"
     
     return ''.join(answer)
