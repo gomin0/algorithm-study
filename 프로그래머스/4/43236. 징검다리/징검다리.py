@@ -2,7 +2,7 @@ def solution(distance, rocks, n):
     answer = 0
     
     rocks.sort()
-    left, right = 1, distance
+    left, right = 0, distance
     
     while left <= right:
         mid = (left + right) // 2
