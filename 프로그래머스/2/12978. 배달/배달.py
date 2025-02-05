@@ -7,7 +7,7 @@ def floyd_warshall(graph, N):
     return graph
     
 
-def solution(N, road, K):
+def solution1(N, road, K):
     answer = 0
 
     graph = [[float('inf')] * (N+1) for _ in range(N+1)]
@@ -38,10 +38,10 @@ def dijkstra(start, N, graph):
     distance[start] = 0
     
     queue = []
-    heapq.heappush(queue, (start, 0))
+    heapq.heappush(queue, (0, start))
     
     while queue:
-        now_node, now_distance = heapq.heappop(queue)
+        now_distance, now_node = heapq.heappop(queue)
         if now_distance > distance[now_node]:
             continue
         
@@ -49,11 +49,11 @@ def dijkstra(start, N, graph):
             dist = now_distance + next_distance
             if dist < distance[next_node]:
                 distance[next_node] = dist
-                heapq.heappush(queue, (next_node, dist))
+                heapq.heappush(queue, (dist, next_node))
     
     return distance
 
-def solution2(N, road, K):
+def solution(N, road, K):
     answer = 0
 
     graph = defaultdict(list)
