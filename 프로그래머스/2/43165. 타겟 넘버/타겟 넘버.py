@@ -3,12 +3,15 @@ def solution(numbers, target):
     
     n = len(numbers)
     
-    def dfs(index, current):
-        if index == n:
-            if current == target:
-                return 1
-            else:
-                return 0
-        return dfs(index+1, current + numbers[index]) + dfs(index+1, current - numbers[index])
+    stack = [(0, 0)]
     
-    return dfs(0, 0)
+    while stack:
+        idx, num = stack.pop()
+        if idx == n:
+            if num == target:
+                answer += 1
+        else:
+            stack.append((idx+1, num+numbers[idx]))
+            stack.append((idx+1, num-numbers[idx]))
+    
+    return answer
