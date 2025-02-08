@@ -1,4 +1,4 @@
-# 그냥 작은 자리수 부터 처리
+# 작은 자리수 부터 처리
 def solution(storey):
     answer = 0
     
@@ -6,7 +6,7 @@ def solution(storey):
         remain = storey % 10
         next_remain = (storey // 10) % 10
         
-        if remain > 5 or (remain == 5 and next_remain >= 5): # 5일때 다음 숫자가 5보다 크면 올리는게 이득 작으면 내리는게 이득
+        if remain > 5 or (remain == 5 and next_remain >= 5): # 5일때 다음 숫자가 5이상이면 올리는게 이득 작으면 내리는게 이득
             answer += 10 - remain # 올리기
             storey += 10
         else:
