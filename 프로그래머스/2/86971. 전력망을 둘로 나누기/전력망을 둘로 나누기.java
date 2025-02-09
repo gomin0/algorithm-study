@@ -5,6 +5,7 @@ class Solution {
         int answer = n;
         int[][] graph = new int[n+1][n+1];
         
+        // 그래프 생성
         for (int i = 0; i < wires.length; i++) {
             int a = wires[i][0];
             int b = wires[i][1];
@@ -28,6 +29,7 @@ class Solution {
         return answer;
     }
     
+    // 연결 전력망 탐색
     private static int bfs(int n, int start, int[][] graph) {
         boolean[] visited = new boolean[n+1];
         int count = 1;
@@ -47,6 +49,6 @@ class Solution {
                 }
             }
         }
-        return Math.abs(count - (n - count));
+        return Math.abs(count - (n - count));  // 차이 값
     }
 }
