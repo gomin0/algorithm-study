@@ -3,7 +3,6 @@ def solution(people, limit):
     
     people.sort()
     
-    # 이중 for문 대신 포인터 사용
     left = 0
     right = len(people) - 1
     
