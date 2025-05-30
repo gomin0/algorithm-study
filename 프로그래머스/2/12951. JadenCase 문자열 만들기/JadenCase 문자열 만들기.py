@@ -1,13 +1,10 @@
 def solution(s):
-    answer = ''
-    
-    for i in range(len(s)):
-        if i == 0 or s[i - 1] == ' ':
-            answer += s[i].upper() if s[i].isalpha() else s[i]
-        else:
-            answer += s[i].lower() if s[i].isalpha() else s[i]
-            
-    return answer
-
-    # ㄷㄷ 근데 막힘
-    # return s.title()
+    answer: str = ""
+    words: list[str] = s.split(" ")
+    for word in words:
+        if not word:
+            answer += " "
+            continue
+        answer += word[0].upper() + word[1:].lower() + " "
+        
+    return answer[:-1]
