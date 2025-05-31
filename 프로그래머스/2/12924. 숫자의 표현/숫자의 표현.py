@@ -1,7 +1,7 @@
 def solution(n):
-    answer = 0
-    sum_num = 0
+    answer: int = 1
     
+    sum_num: int = 0
     for i in range(1, n-1):
         sum_num += i
         for j in range(i + 1, n):
@@ -14,4 +14,4 @@ def solution(n):
                 sum_num = 0
                 break
     
-    return answer + 1  # n = n인경우
+    return answer
