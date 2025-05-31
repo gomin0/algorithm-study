@@ -1,8 +1,12 @@
 def solution(s):
-    answer = [0, 0]
-    count = 0
+    count: int = 0
+    time: int = 0
     while s != '1':
-        answer[0] += 1
-        answer[1] += s.count('0')
-        s = bin(len(s.replace('0', '')))[2:]
-    return answer
+        length: int = len(s)
+        c: int = s.count('1')
+        count += length - c
+        s: str = '1' * count
+        s: str = format(c, 'b')
+        time += 1
+    
+    return [time, count]
