@@ -1,12 +1,15 @@
 def solution(s):
-    answer = 0
-
-    stack = []
+    answer = -1
+    stack: list[str] = []
+    stack.append(s[0])
     
-    for char in s:
-        if stack and stack[-1] == char:
+    for i in range(1, len(s)):
+        if stack and s[i] == stack[-1]:
             stack.pop()
-        else:
-            stack.append(char)
+            continue
+        stack.append(s[i])
     
-    return 1 if not stack else 0
+    if stack:
+        return 0
+    else:
+        return 1
