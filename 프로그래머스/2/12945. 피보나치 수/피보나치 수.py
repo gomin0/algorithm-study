@@ -1,7 +1,8 @@
 def solution(n):
-    a, b = 0, 1  # F(0) = 0, F(1) = 1
+    fibo: list[int] = [0] * (n+1)
+    fibo[1] = 1
     
-    for _ in range(2, n + 1):
-        a, b = b, (a + b) % 1234567
+    for i in range(2, n+1):
+        fibo[i] = fibo[i-1] + fibo[i-2]
     
-    return b
+    return fibo[n] % 1234567
