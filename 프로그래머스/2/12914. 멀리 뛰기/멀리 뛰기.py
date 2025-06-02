@@ -1,16 +1,13 @@
 def solution(n):
-    answer = 0
-    
     if n == 1:
         return 1
     if n == 2:
         return 2
-    
-    dp = [0] * (n + 1)
-    dp[1] = 1
-    dp[2] = 2
-    
+    jump_bound: list[int] = [0] * (n+1)
+    jump_bound[1] = 1
+    jump_bound[2] = 2
+
     for i in range(3, n + 1):
-        dp[i] = (dp[i - 1] + dp[i - 2]) % 1234567
+        jump_bound[i] = jump_bound[i-1] + jump_bound[i-2]
     
-    return dp[n]
+    return jump_bound[n] % 1234567
