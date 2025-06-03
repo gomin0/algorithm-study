@@ -1,16 +1,16 @@
 def solution(n, words):
-    answer = []
-    prev_words = []
+    answer = [0, 0]
     
-    end = words[0][-1]
-    prev_words.append(words[0])
-    
+    prev_words: set[str] = set()
+    end_word: str = words[0][-1]
+    prev_words.add(words[0])
     for i in range(1, len(words)):
-        player = (i % n) + 1
-        turn = (i // n) + 1
-        if not words[i].startswith(end) or words[i] in prev_words:
-            return [player, turn]
-        end = words[i][-1]
-        prev_words.append(words[i])
+        word: str = words[i]
+        if word in prev_words or not word.startswith(end_word):
+            answer[0] = i % n + 1
+            answer[1] = i // n + 1
+            break
+        prev_words.add(word)
+        end_word = word[-1]
 
-    return [0, 0]
+    return answer
