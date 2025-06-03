@@ -1,21 +1,14 @@
+import math
+
 def solution(n,a,b):
-    answer = 0
-    game_round = 0
-    count = 0
-    while 2 ** count < n:
-        count += 1
+    times: int = 0
+    max_times: int = int(math.log2(n))
     
-    if a > b:
-        a, b = b, a
+    for i in range(max_times):
+        if a == b:
+            break
+        a = (a+1) // 2
+        b = (b+1) // 2
+        times += 1
     
-    while True:
-        if a <= n/2 and b > n/2:
-            return count
-        elif a <= n/2 and b <= n/2:
-            n /= 2
-            count -= 1
-        elif a > n/2 and b > n/2:
-            a -= n/2
-            b -= n/2
-            n /= 2
-            count -= 1
+    return times
