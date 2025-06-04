@@ -1,8 +1,7 @@
 def solution(elements):
-    
-    answer = set()
-    length = len(elements)
-    elements = elements * 2
+    answer: set[int] = set()
+    length: int = len(elements)
+    elements *= 2
     
     for i in range(length * 2):
         for j in range(1, length + 1):
