@@ -1,22 +1,28 @@
 def solution(want, number, discount):
     answer = 0
-    bascket = []
-    wanted = []
+    wants: dict[str, int] = dict(zip(want, number))
+    goods: dict[str, int] = dict(zip(want, [0] * len(number)))
+    length: int = len(discount)
+    for i in range(10):
+        good: str = discount[i]
+        if good in goods:
+            goods[good] += 1
+    if wants == goods:
+        answer += 1
     
-    for idx, i in enumerate(want):
-        for _ in range(number[idx]):
-            wanted.append(i)
-
-    wanted.sort()
-        
+    i: int = 1
+    j: int = 10
     
-    for i in range(len(discount)):
-        if i+10 <= len(discount):
-            bascket = discount[i:i+10]
-            bascket.sort()
-            if bascket == wanted:
-                answer += 1
-        else:
-            break
+    while j < length:
+        good1: str = discount[i-1]
+        good2: str = discount[j]
+        if good1 in goods:
+            goods[good1] -= 1
+        if good2 in goods:
+            goods[good2] += 1
+        if wants == goods:
+            answer += 1
+        i += 1
+        j += 1
     
     return answer
