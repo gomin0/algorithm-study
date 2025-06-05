@@ -1,5 +1,5 @@
 def solution(want, number, discount):
-    answer = 0
+    answer: int = 0
     wants: dict[str, int] = dict(zip(want, number))
     goods: dict[str, int] = dict(zip(want, [0] * len(number)))
     length: int = len(discount)
