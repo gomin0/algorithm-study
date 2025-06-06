@@ -2,10 +2,14 @@ def solution(n, computers):
     answer: int = 0
     
     def dfs(start):
+        stack: list[int] = [start]
         visited.add(start)
-        for i in range(n):
-            if computers[start][i] == 1 and i not in visited:
-                dfs(i)
+        while stack:
+            node = stack.pop()
+            for i in range(n):
+                if computers[node][i] == 1 and i not in visited:
+                    stack.append(i)
+                    visited.add(i)
     
     visited: set[int] = set()
     for i in range(n):
