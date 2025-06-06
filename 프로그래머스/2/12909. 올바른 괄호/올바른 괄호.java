@@ -1,44 +1,25 @@
-import java.util.*;
 class Solution {
     boolean solution(String s) {
-//         boolean answer = true;
-//         Queue<String> q = new LinkedList<>();
-
-//         for (String str : s.split("")) {
-//             q.add(str);
-//         }
+        boolean answer = true;
         
-//         int count = 0;
+        int count = 0;
         
-//         while(!q.isEmpty()) {
-//             if (count < 0) {
-//                 answer =  false;
-//                 break;
-//             }
-//             if(q.poll().equals("(")) {
-//                 count++;
-//             }
-//             else {
-//                 count--;
-//             }
-//         }
-//         if (count != 0) {
-//             answer = false;
-//         }
-//         return answer;
-        
-        Queue<Character> queue = new LinkedList<>();
-
-        for (char c : s.toCharArray()) {
-            if (c == '(') {
-                queue.add(c);
-            } else if (c == ')') {
-                if (queue.isEmpty() || queue.poll() != '(') {
-                    return false;
-                }
+        for (int i = 0; i < s.length(); i++) {
+            char now = s.charAt(i);
+            if (now == '(')
+                count += 1;
+            
+            if (now == ')')
+                count -= 1;
+            
+            if (count < 0) {
+                answer = false;
+                break;
             }
         }
-
-        return queue.isEmpty();
+        
+        if (count != 0)
+            return false;
+        return answer;
     }
 }
