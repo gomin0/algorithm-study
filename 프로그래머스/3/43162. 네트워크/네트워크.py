@@ -5,7 +5,7 @@ def solution(n, computers):
         stack: list[int] = [start]
         visited.add(start)
         while stack:
-            node = stack.pop()
+            node: int = stack.pop()
             for i in range(n):
                 if computers[node][i] == 1 and i not in visited:
                     stack.append(i)
