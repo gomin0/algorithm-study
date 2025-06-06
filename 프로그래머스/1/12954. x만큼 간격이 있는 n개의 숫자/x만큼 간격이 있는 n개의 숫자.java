@@ -1,11 +1,11 @@
-import java.util.*;
-
 class Solution {
-    public List<Long> solution(int x, int n) {
-        List<Long> answer = new ArrayList<>();
+    public long[] solution(int x, int n) {
+        long[] answer = new long[n];
+        long num = x;
         
         for (int i = 0; i < n; i++) {
-            answer.add((long) x*(i+1));
+            answer[i] = num;
+            num += x;
         }
         
         return answer;
