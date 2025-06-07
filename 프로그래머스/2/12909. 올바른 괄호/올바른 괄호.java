@@ -1,25 +1,25 @@
+import java.util.Stack;
+
 class Solution {
     boolean solution(String s) {
         boolean answer = true;
-        
-        int count = 0;
+        Stack<Character> stack = new Stack<>();
         
         for (int i = 0; i < s.length(); i++) {
             char now = s.charAt(i);
             if (now == '(')
-                count += 1;
-            
-            if (now == ')')
-                count -= 1;
-            
-            if (count < 0) {
+                stack.push(now);
+            else if (now == ')' && !stack.isEmpty() && stack.pop() == '('){
+                continue;
+            }
+            else {
                 answer = false;
                 break;
             }
         }
-        
-        if (count != 0)
-            return false;
+
+        if (!stack.isEmpty())
+            answer = false;
         return answer;
     }
 }
