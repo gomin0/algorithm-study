@@ -1,28 +1,20 @@
-import java.util.*;
-
 class Solution {
     public int[] solution(String s) {
         int[] answer = new int[2];
         int count = 0;
-        int zero = 0;
-        
+        int times = 0;
         while (!s.equals("1")) {
-            Queue<String> q = new LinkedList<>();
-            count ++;
-            for (String str : s.split("")) {
-                if(str.equals("0")) {
-                    zero++;
-                }
-                else {
-                    q.add(str);   
-                }
+            for (char c : s.toCharArray()) {
+                if (c == '0')
+                    count ++;
             }
-            s = Integer.toBinaryString(q.size());
+            s = s.replace("0", "");
+            int len = s.length();
+            s = Integer.toBinaryString(len);
+            times ++;
         }
-        
-        answer[0] = count;
-        answer[1] = zero;
-        
+        answer[0] = times;
+        answer[1] = count;
         return answer;
     }
 }
