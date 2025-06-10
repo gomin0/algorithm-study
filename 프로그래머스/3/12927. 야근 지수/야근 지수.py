@@ -1,18 +1,19 @@
 import heapq
 
 def solution(n, works):
-    answer = 0
+    answer: int = 0
+    works: list[int] = [-work for work in works]
+    heapq.heapify(works)
     
-    max_heap = [-x for x in works]
-    heapq.heapify(max_heap)
+    while n > 0:
+        if not works:
+            break
+        num: int = heapq.heappop(works)
+        num += 1
+        if num < 0:
+            heapq.heappush(works, num)
+        n -= 1
     
-    for i in range(n):
-        if max_heap:
-            max_value = heapq.heappop(max_heap)
-            if max_value + 1 < 0:
-                heapq.heappush(max_heap, max_value + 1)
-    
-    for i in max_heap:
-        answer += i*i
-    
+    for work in works:
+        answer += work*work
     return answer
