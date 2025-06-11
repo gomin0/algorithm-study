@@ -3,18 +3,16 @@ class Solution {
         int answer = 0;
         
         for (int i = 1; i <= n; i++) {
-            int sum = 0;
+            int number = 0;
             for (int j = i; j <= n; j++) {
-                sum += j;
-                if (sum == n) {
+                number += j;
+                if (number == n) {
                     answer ++;
                     break;
                 }
-                else if (sum > n) {
+                else if (number > n)
                     break;
-                }
             }
-            
         }
         
         return answer;
