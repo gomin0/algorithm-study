@@ -1,15 +1,14 @@
 def solution(A, B):
-    answer = 0
-    
+    answer: int = 0
     A.sort()
     B.sort()
-    idx_a = 0
-    idx_b = 0
+    i: int = 0
+    j: int = 0
     
-    while idx_b < len(A):
-        if A[idx_a] < B[idx_b]:
+    while j < len(B):
+        if A[i] < B[j]:
+            i += 1
             answer += 1
-            idx_a += 1
-        idx_b += 1
-    
+        j += 1
+        
     return answer
