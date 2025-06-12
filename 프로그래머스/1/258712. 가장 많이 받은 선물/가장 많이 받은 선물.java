@@ -2,20 +2,10 @@ import java.util.*;
 
 class Solution {
     public int solution(String[] friends, String[] gifts) {
+        int len = friends.length;
         // 사람 : (선물 준사람 : 개수)
         Map<String, Map<String, Integer>> giftMap = new HashMap<>();
-        int len = friends.length;
-        
-        for (String friend : friends) {
-            // 사람 세팅
-            giftMap.put(friend, new HashMap<>());
-            for (String giver : friends) {
-                if (!friend.equals(giver)) {
-                    // 선물 준사람 개수 0으로 세팅
-                    giftMap.get(friend).put(giver, 0);
-                }
-            }
-        }
+        setGiftMap(giftMap, friends);
         
         // 빠른 검색 위한 사람 인덱스 위치 저장
         Map<String, Integer> friendsIdx = new HashMap<>();
@@ -26,6 +16,49 @@ class Solution {
         int[] giftDegree = new int[len];
         
         // gifts 정보로 누가 누구한테 몇개 받았고 선물 지수 몇인지 기록
+        recordGiftInfo(gifts, friendsIdx, giftDegree, giftMap);
+        
+        // 다음달 받는 선물 수 저장 배열
+        int[] nextGift = new int[len];
+        // 다음달 받을 선물 주고받기 계산 끝낸 경우 저장
+        Set<String> complete = new HashSet<>();
+        
+        // 다음달 선물 정산
+        calculateNextMonthGifts(
+            friends,
+            giftMap,
+            giftDegree,
+            nextGift,
+            complete,
+            friendsIdx
+        );
+        
+        return getMaxCount(nextGift);
+    }
+    
+    private void setGiftMap(
+        Map<String, 
+        Map<String, Integer>> giftMap, 
+        String[] friends
+    ) {
+        for (String friend : friends) {
+            // 사람 세팅
+            giftMap.put(friend, new HashMap<>());
+            for (String giver : friends) {
+                if (!friend.equals(giver)) {
+                    // 선물 준사람 개수 0으로 세팅
+                    giftMap.get(friend).put(giver, 0);
+                }
+            }
+        }        
+    }
+    
+    private void recordGiftInfo(
+        String[] gifts, 
+        Map<String, Integer> friendsIdx, 
+        int[] giftDegree, 
+        Map<String, Map<String, Integer>> giftMap
+    ) {
         for (String gift : gifts) {
             String[] record = gift.split(" ");
             String giver = record[0];
@@ -35,13 +68,17 @@ class Solution {
             giftDegree[giverIdx]++;
             giftDegree[getterIdx]--;
             giftMap.get(getter).put(giver, giftMap.get(getter).get(giver) + 1);
-        }        
-        
-        // 다음달 받는 선물 수 저장 배열
-        int[] nextGift = new int[len];
-        // 다음달 받을 선물 주고받기 계산 끝낸 경우 저장
-        Set<String> complete = new HashSet<>();
-        
+        }      
+    }
+    
+    private void calculateNextMonthGifts(
+        String[] friends,
+        Map<String, Map<String, Integer>> giftMap,
+        int[] giftDegree,
+        int[] nextGift,
+        Set<String> complete,
+        Map<String, Integer> friendsIdx
+    ){
         for (String friend : friends) {
             for (String giver : friends) {
                 if (friend.equals(giver))
@@ -83,17 +120,14 @@ class Solution {
                 complete.add(complete2);
             }
         }
-        
-        int answer = 0;
+    }
+    
+    private int getMaxCount(int[] nextGift) {
+        int maxCount = 0;
         for (int count : nextGift) {
-            if (count > answer)
-                answer = count;
+            if (count > maxCount)
+                maxCount = count;
         }
-        return answer;
+        return maxCount;
     }
 }
-
-// 선물 주고 받은 사이 => 더 많이 준 사람이 받음
-// 선물 주고 받은 수 같은 사이 => 선물 지수가 큰 사람이 받음(같으면 서로 안받음)
-// 선물 주고 받은 적 없는 사이 => 선물 지수가 큰 사람이 받음(같으면 서로 안받음)
-// 선물 지수 = 선물 준 수 - 받은 수
