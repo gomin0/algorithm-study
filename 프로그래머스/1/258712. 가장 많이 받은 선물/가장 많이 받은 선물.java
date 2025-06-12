@@ -3,6 +3,7 @@ import java.util.*;
 class Solution {
     public int solution(String[] friends, String[] gifts) {
         int len = friends.length;
+        
         // 사람 : (선물 준사람 : 개수)
         Map<String, Map<String, Integer>> giftMap = new HashMap<>();
         setGiftMap(giftMap, friends);
@@ -12,12 +13,11 @@ class Solution {
         for (int i = 0; i < len; i++) {
             friendsIdx.put(friends[i], i);
         }
+        
         // 선물 지수 기록 배열
         int[] giftDegree = new int[len];
-        
         // gifts 정보로 누가 누구한테 몇개 받았고 선물 지수 몇인지 기록
         recordGiftInfo(gifts, friendsIdx, giftDegree, giftMap);
-        
         // 다음달 받는 선물 수 저장 배열
         int[] nextGift = new int[len];
         // 다음달 받을 선물 주고받기 계산 끝낸 경우 저장
