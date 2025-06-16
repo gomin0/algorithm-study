@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 def solution(genres, plays):
-    answer = []
+    answer: list[int] = []
     genres_plays: defaultdict[str, int] = defaultdict(int)
     genres_history: list[tuple[int, str, int]] = []
     for i in range(len(genres)):
