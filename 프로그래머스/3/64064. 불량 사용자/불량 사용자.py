@@ -1,6 +1,6 @@
 from itertools import permutations
 
-def check(uid, bid):
+def is_banned(uid, bid) -> bool:
     if len(uid) != len(bid):
         return False
     for u, b in zip(uid, bid):
@@ -8,17 +8,15 @@ def check(uid, bid):
             return False
     return True
 
-def solution(user_id, banned_id):
+def solution(user_id, banned_id) -> int:
+    ban: set[tuple[str, ...]] = set()
+    user_case: list[tuple[str, ...]] = list(permutations(user_id, len(banned_id)))
     
-    ban_list = set()
-    
-    for up in permutations(user_id, len(banned_id)):
-        possible = True
-        for uid, bid in zip(up, banned_id):
-            if not check(uid, bid):
-                possible = False
+    for case in user_case:
+        for uid, bid in zip(case, banned_id):
+            if not is_banned(uid, bid):
                 break
-        if possible:
-        	ban_list.add(tuple(sorted(up)))
+        else:
+            ban.add(tuple(sorted(case)))
     
-    return len(ban_list)
+    return len(ban)
