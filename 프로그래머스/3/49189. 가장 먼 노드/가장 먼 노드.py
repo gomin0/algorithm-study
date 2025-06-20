@@ -1,27 +1,21 @@
-from collections import defaultdict, deque
+from collections import deque
 
 def solution(n, edge):
-    answer = 0
-    
-    def bfs(n, start, graph):
-        distance = [-1 for _ in range(n)]
-        distance[start] = 0
-        queue = deque([start])
-        
-        while queue:
-            node = queue.popleft()
-            dist = distance[node]
-            for next_node in graph[node]:
-                if distance[next_node] == -1:
-                    distance[next_node] = dist + 1
-                    queue.append(next_node)
-        return distance
-    
-    graph = defaultdict(list)
+    graph: list[list[int]] = [[] for _ in range(n+1)]
     for a, b in edge:
-        graph[a-1].append(b-1)
-        graph[b-1].append(a-1)
+        graph[a].append(b)
+        graph[b].append(a)
+    distance: list[int] = [0] * (n+1)
+    visited: set[int] = set()
+    queue: deque[int] = deque([1])
+    visited.add(1)
     
-    distance = bfs(n, 0, graph)
+    while queue:
+        node: int = queue.popleft()
+        for next_node in graph[node]:
+            if next_node not in visited:
+                queue.append(next_node)
+                visited.add(next_node)
+                distance[next_node] = distance[node] + 1
     
     return distance.count(max(distance))
