@@ -1,30 +1,23 @@
-def find(parent, node):
-    if node != parent[node]:
-        parent[node] = find(parent, parent[node])
-    return parent[node]
-
-def union(px, py, parent, rank):
-    if rank[px] > rank[py]:
-        parent[py] = px
-    elif rank[py] > rank[px]:
-        parent[px] = py
-    else:
-        parent[py] = px
-        rank[px] += 1
-
-def solution(n, costs):
-    answer = 0
-    
-    parent = [i for i in range(n)]
-    rank = [0 for _ in range(n)]
-    
+def solution(n, costs) -> int:
     costs.sort(key=lambda x:x[2])
+    parent: list[int] = [i for i in range(n)]
     
-    for x, y, cost in costs:
-        px = find(parent, x)
-        py = find(parent, y)
-        if px != py:
-            union(px, py, parent, rank)
-            answer += cost
+    def find(x) -> int:
+        if parent[x] != x:
+            parent[x] = find(parent[x])
+        return parent[x]
+    
+    def union(a, b) -> bool:
+        a_parent: int = find(a)
+        b_parent: int = find(b)
+        if a_parent != b_parent:
+            parent[b_parent] = a_parent
+            return True
+        return False
+    
+    answer: int = 0
+    for a, b, c in costs:
+        if union(a, b):
+            answer += c
     
     return answer
