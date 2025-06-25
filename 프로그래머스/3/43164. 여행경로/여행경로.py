@@ -1,22 +1,24 @@
 from collections import defaultdict
 
 def solution(tickets):
-    answer = []
+    answer: list[str] = []
+    route: defaultdict[str, list[str]] = defaultdict(list)
     
-    path = defaultdict(list)
+    for ticket in tickets:
+        start: str
+        end: str
+        start, end = ticket
+        route[start].append(end)
     
-    for a, b in tickets:
-        path[a].append(b)
+    for key in route:
+        route[key].sort(reverse=True)
     
-    for key in path:
-        path[key].sort(reverse=True)
-    
-    def dfs(start):
-        while path[start]:
-            next_start = path[start].pop()
-            dfs(next_start)
-        answer.append(start)
-    
-    dfs('ICN')
+    stack: list[str] = ["ICN"]
+    while stack:
+        top: str = stack[-1]
+        if route[top]:
+            stack.append(route[top].pop())
+        else:
+            answer.append(stack.pop())
     
     return answer[::-1]
