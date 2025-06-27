@@ -1,17 +1,22 @@
-def solution(sequence):
-    answer = 0
+def solution(sequence) -> int:
+    length: int = len(sequence)
+    pulse1: list[int] = [
+        sequence[i] if i % 2 == 0 else -sequence[i] for i in range(length)
+    ]
+    pulse2: list[int] = [
+        sequence[i] if i % 2 != 0 else -sequence[i] for i in range(length)
+    ]
     
-    n = len(sequence)
+    def max_sub_sum(nums) -> int:
+        max_sum: int = nums[0]
+        current_sum: int = nums[0]
+        
+        for i in range(1, len(nums)):
+            num: int = nums[i]
+            current_sum = max(num, current_sum + num)
+            max_sum = max(max_sum, current_sum)
+        return max_sum
     
-    pulse1 = [sequence[i] if i % 2 == 0 else -sequence[i] for i in range(n)]
-    pulse2 = [-sequence[i] if i % 2 == 0 else sequence[i] for i in range(n)]
+    answer: int = max(max_sub_sum(pulse1), max_sub_sum(pulse2))
     
-    dp1 = [0 for _ in range(n)]
-    dp1[0] = pulse1[0]
-    dp2 = [0 for _ in range(n)]
-    dp2[0] = pulse2[0]
-    for i in range(1, n):
-        dp1[i] = max(pulse1[i], dp1[i-1] + pulse1[i])
-        dp2[i] = max(pulse2[i], dp2[i-1] + pulse2[i])
-    
-    return max(max(dp1), max(dp2))
+    return answer
