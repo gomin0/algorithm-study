@@ -1,20 +1,24 @@
+import java.util.*;
+
 class Solution {
-    static int answer = 0;
     public int solution(int[] numbers, int target) {
-        dfs(0, numbers, target, 0);        
-        return answer;
-    }
-    
-    private void dfs(int depth, int[] numbers, int target, int num) {
-        if (depth == numbers.length){
-            if (num == target)
-                answer++;
-            return;
-        }
-        int plus = num + numbers[depth];
-        int minus = num - numbers[depth];
+        int answer = 0;
+        Stack<int[]> stack = new Stack<>();
+        stack.push(new int[]{0, 0}); //{depth, num}
+        int len = numbers.length;
         
-        dfs(depth + 1, numbers, target, plus);
-        dfs(depth + 1, numbers, target, minus);
+        while (!stack.isEmpty()) {
+            int[] current = stack.pop();
+            int depth = current[0];
+            int num = current[1];
+            if (depth == len) {
+                if (num == target)
+                    answer++;
+                continue;
+            }
+            stack.push(new int[]{depth+1, num+numbers[depth]});
+            stack.push(new int[]{depth+1, num-numbers[depth]});
+        }
+        return answer;
     }
 }
