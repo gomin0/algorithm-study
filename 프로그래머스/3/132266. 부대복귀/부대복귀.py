@@ -1,23 +1,22 @@
-from collections import deque, defaultdict
+from collections import defaultdict, deque
 
 def solution(n, roads, sources, destination):
-
-    graph = defaultdict(list)
+    graph: defaultdict[int, list[int]] = defaultdict(list)
     for a, b in roads:
         graph[a].append(b)
         graph[b].append(a)
-    
-    distance = [-1 for _ in range(n+1)]
-    distance[destination] = 0
-    
-    queue = deque([destination])
-    while queue:
-        node = queue.popleft()
-        dist = distance[node]
         
-        for next_node in graph[node]:
-            if distance[next_node] == -1:
-                distance[next_node] = dist + 1
-                queue.append(next_node)
+    dist: list[int] = [-1] * (n + 1)
+    dist[destination] = 0
+    queue: deque[int] = deque([destination])
     
-    return [distance[source] for source in sources]
+    while queue:
+        node: int = queue.popleft()
+        for next_node in graph[node]:
+            if dist[next_node] == -1:
+                dist[next_node] = dist[node] + 1
+                queue.append(next_node)
+    answer: list[int] = []
+    for source in sources:
+        answer.append(dist[source])
+    return answer
