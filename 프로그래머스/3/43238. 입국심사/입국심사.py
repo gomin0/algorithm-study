@@ -1,17 +1,15 @@
 def solution(n, times):
-    answer = 0
+    min_time: int = 1
+    max_time: int = max(times) * n
     
-    left = 1
-    right = max(times) * n
-    
-    while left <= right:
-        num = 0
-        mid = (left + right) // 2
+    while min_time <= max_time:
+        mid: int = (min_time + max_time) // 2
+        count: int = 0
         for time in times:
-            num += mid//time
-        if num >= n:
-            right = mid - 1
+            count += mid // time
+        if count >= n:
+            max_time = mid - 1
         else:
-            left = mid + 1
+            min_time = mid + 1
     
-    return left
+    return min_time
