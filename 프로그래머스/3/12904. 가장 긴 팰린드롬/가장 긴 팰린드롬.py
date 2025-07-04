@@ -1,16 +1,19 @@
-def check(string, left, right):
-    n = len(string)
-    while 0 <= left and right < n and string[left] == string[right]:
-        left -= 1
-        right += 1
-    return right - left - 1  # 한단계 더 +- 됐으니까
+def check(string):
+    left: int = 0
+    right: int = len(string)-1
+    while left < right:
+        if string[left] == string[right]:
+            left += 1
+            right -= 1
+        else:
+            return False
+    return True
 
 def solution(s):
-    answer = 0
-
-    for i in range(len(s)):
-        len1 = max(answer, check(s, i, i))
-        len2 = max(answer, check(s, i, i+1))
-        answer = max(answer, len1, len2)
-        
-    return answer
+    length: int = len(s)
+    for l in range(length, 0, -1):
+        for i in range(length - l + 1):
+            if check(s[i:i+l]):
+                return l
+    
+    return 1
