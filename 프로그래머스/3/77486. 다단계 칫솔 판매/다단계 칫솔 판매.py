@@ -1,18 +1,28 @@
+from collections import defaultdict
+
 def solution(enroll, referral, seller, amount):
-    n = len(enroll)
+    answer: list[int] = []
     
-    money = {e: 0 for e in enroll}
-    ref = {enroll[i]: referral[i] for i in range(n)}
+    multi_level: defaultdict[str, str] = defaultdict(str)
+    total_money: defaultdict[str, int] = defaultdict(int)
+    for i in range(len(enroll)):
+        multi_level[enroll[i]] = referral[i]
     
-    def distribute(name, price):
-        if price < 1 or name == "-":
-            return
-        give = price // 10
-        money[name] += price - give
-        distribute(ref[name], give)
+    for s, a in zip(seller, amount):
+        money: int = a * 100
+        current: str = s
         
-    for i in range(len(seller)):
-        price = amount[i] * 100  # 개당 100원
-        distribute(seller[i], price)
-        
-    return [money[e] for e in enroll]
+        while True:
+            give = money // 10
+            keep = money - give
+            total_money[current] += keep
+            
+            if multi_level[current] == "-" or give < 1:
+                break
+            current = multi_level[current]
+            money = give
+    
+    for person in enroll:
+        answer.append(total_money[person])
+    
+    return answer
