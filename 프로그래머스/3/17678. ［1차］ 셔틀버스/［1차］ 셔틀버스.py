@@ -1,23 +1,24 @@
-def time_to_minute(time):
+def time_to_minute(time) -> int:
+    h: int
+    m: int
     h, m = map(int, time.split(":"))
     return h * 60 + m
 
-def minute_to_time(minute):
-    h = minute // 60
-    m = minute % 60
+def minute_to_time(minute) -> str:
+    h: int = minute // 60
+    m: int = minute % 60
     return f"{h:02}:{m:02}"
 
-def solution(n, t, m, timetable):
-    answer = ''
-    
+def solution(n, t, m, timetable) -> str:
+    answer: str = ''
     timetable.sort()
     
-    time = 9*60
-    idx = 0
+    time: int = 9*60  # 9시부터 도착
+    idx: int = 0
     for i in range(n):
-        crew = 0
+        crew: int = 0
         while idx < len(timetable):
-            bus = time_to_minute(timetable[idx])
+            bus: int = time_to_minute(timetable[idx])
             if bus <= time:
                 idx += 1
                 crew += 1
@@ -31,6 +32,5 @@ def solution(n, t, m, timetable):
         answer = minute_to_time(time - t)
     else:
         answer = minute_to_time(time_to_minute(timetable[idx-1]) - 1)
-        # answer = minute_to_time(time_to_minute(timetable[-1]) - 1) 이렇게 하면 마지막 사람이 마지막 버스에 못타는 사람일 수도 있으니까 idx로 해야함
     
     return answer
