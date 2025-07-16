@@ -1,8 +1,9 @@
-def solution(board, skill):
-    answer = 0
+def solution(board, skill) -> int:
+    answer: int = 0
     
-    n, m = len(board), len(board[0])
-    skill_sum = [[0] * (m+1) for _ in range(n+1)]
+    n: int = len(board)
+    m: int = len(board[0])
+    skill_sum: list[list[int]] = [[0] * (m+1) for _ in range(n+1)]
     
     for skill_type, x1, y1, x2, y2, degree in skill:
         if skill_type == 1:
