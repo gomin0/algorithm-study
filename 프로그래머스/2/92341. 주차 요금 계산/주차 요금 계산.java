@@ -2,69 +2,56 @@ import java.util.*;
 
 class Solution {
     public int[] solution(int[] fees, String[] records) {
-        Map<String, Integer> inTimeMap = new HashMap<>();
-        Map<String, Integer> parkingTimeMap = new HashMap<>();
+        Map<Integer, List<Integer>> record = new HashMap<>();
+        Map<Integer, Integer> price = new HashMap<>();
         
-        for (String r : records) {
-            String[] record = r.split(" ");
-            String time = record[0];
-            String carNum = record[1];
-            String type = record[2];
-            
-            int minute = timeToMinute(time);
-            
-            if (type.equals("IN")) {
-                inTimeMap.put(carNum, minute);
-            } else {
-                int inTime = inTimeMap.remove(carNum);
-                int total = minute - inTime;
-                total += parkingTimeMap.getOrDefault(carNum, 0);  // 전에 기록 있는지
-                parkingTimeMap.put(carNum, total);
+        for(String r : records) {
+            String[] parts = r.split(" ");
+            String[] time = parts[0].split(":");
+            int h = Integer.parseInt(time[0]);
+            int m = Integer.parseInt(time[1]);
+            int t = h * 60 + m;
+            int car = Integer.parseInt(parts[1]);
+            if (!record.containsKey(car))
+                record.put(car, new ArrayList<>());
+            record.get(car).add(t);
+        }
+        
+        int idx = 0;
+        int[] carNum = new int[record.size()];
+        for (int num : record.keySet()) {
+            carNum[idx] = num;
+            int total = 0;
+            List<Integer> times = record.get(num);
+            for (int i = 0; i < times.size(); i++) {
+                if (i % 2 == 0)
+                    total -= times.get(i);
+                else
+                    total += times.get(i);
             }
+            if (times.size() % 2 == 1)
+                total += 23 * 60 + 59;
+            idx++;
+            int totalP = totalPrice(total, fees);
+            price.put(num, totalP);
         }
         
-        for (Map.Entry<String, Integer> entry : inTimeMap.entrySet()) {
-            String carNum = entry.getKey();
-            int inTime = entry.getValue();
-            int total = timeToMinute("23:59") - inTime;
-            total += parkingTimeMap.getOrDefault(carNum, 0);
-            parkingTimeMap.put(carNum, total);
-        }
-        
-        List<String> cars = new ArrayList<>(parkingTimeMap.keySet());
-        Collections.sort(cars);
-        
-        int[] answer = new int[cars.size()];
-        for (int i = 0; i < cars.size(); i++) {
-            String carNum = cars.get(i);
-            int time = parkingTimeMap.get(carNum);
-            answer[i] = totalFee(time, fees);
+        Arrays.sort(carNum);
+        int[] answer = new int[carNum.length];
+        int i = 0;
+        for (int n : carNum) {
+            answer[i] = price.get(n);
+            i++;
         }
         
         return answer;
     }
     
-    private int timeToMinute(String time) {
-        String[] t = time.split(":");
-        int h = Integer.parseInt(t[0]);
-        int m = Integer.parseInt(t[1]);
-        
-        return h*60 + m;
-    }
-    
-    private int totalFee(int time, int[] fees) {
-        int baseTime = fees[0];
-        int baseFee = fees[1];
-        int unitTime = fees[2];
-        int unitFee = fees[3];
-        
-        if (time <= baseTime) {
-            return baseFee;
-        }
-        
-        int extraTime = time - baseTime;
-        int extraFee = (int) Math.ceil((double) extraTime / unitTime) * unitFee;
-        
-        return baseFee + extraFee;
+    private int totalPrice(int time, int[] fees) {
+        int price = fees[1];        
+        if (time <= fees[0])
+            return price;
+        price += Math.ceil((time - fees[0]) / (double) fees[2]) * fees[3];
+        return price;
     }
 }
