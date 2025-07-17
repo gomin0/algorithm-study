@@ -2,36 +2,25 @@ import java.util.*;
 
 class Solution {
     public int solution(int x, int y, int n) {
-        int answer = 0;
-        
         Queue<int[]> queue = new LinkedList<>();
         boolean[] visited = new boolean[y+1];
         
-        queue.offer(new int[]{x, 0});  // 현재 값, 횟수
+        queue.offer(new int[]{x, 0});
         visited[x] = true;
         
         while (!queue.isEmpty()) {
-            int[] current = queue.poll();
-            int currentValue = current[0];
-            int count = current[1];
+            int[] now = queue.poll();
+            int value = now[0];
+            int count = now[1];
             
-            if (currentValue == y) {
+            if (value == y)
                 return count;
-            }
-            
-            if (currentValue + n <= y && !visited[currentValue + n]) {
-                visited[currentValue + n] = true;
-                queue.offer(new int[] {currentValue + n, count + 1});
-            }
-            
-            if (currentValue * 2 <= y && !visited[currentValue * 2]) {
-                visited[currentValue * 2] = true;
-                queue.offer(new int[] {currentValue * 2, count + 1});
-            }
-            
-            if (currentValue * 3 <= y && !visited[currentValue * 3]) {
-                visited[currentValue * 3] = true;
-                queue.offer(new int[] {currentValue * 3, count + 1});
+            int[] nextValue = {value + n, value * 2, value * 3};
+            for (int next : nextValue) {
+                if (next <= y && !visited[next]) {
+                    visited[next] = true;
+                    queue.offer(new int[]{next, count + 1});
+                }
             }
         }
         
