@@ -1,43 +1,40 @@
-def key_rotation(key):  # 키 돌리기
-    m = len(key)
-    rotation = []
-    
-    for i in range(m):
-        key_line = []
-        for j in range(m):
-            key_line.append(key[m-1-j][i])
-        rotation.append(key_line)
-    return rotation
 
-def check(key, expanded_lock, a, b, n, m):
-    test_lock = [row[:] for row in expanded_lock]
-    
-    for i in range(m):
-        for j in range(m):
-            if 0 <= a + i < n + 2 * (m - 1) and 0 <= b + j < n + 2 * (m - 1):
-                test_lock[a+i][b+j] += key[i][j]
-                
-    for i in range(n):
-        for j in range(n):
-            if test_lock[m-1+i][m-1+j] != 1:
+def rotate(matrix):
+    return list(zip(*matrix[::-1]))
+
+
+def check(expanded_lock, M, N):
+    # 자물쇠의 원래 중심 영역만 확인
+    for i in range(N):
+        for j in range(N):
+            if expanded_lock[i + M - 1][j + M - 1] != 1:
                 return False
     return True
 
+
 def solution(key, lock):
+    M: int = len(key)
+    N: int = len(lock)
+    size: int = N + 2 * (M - 1)
     
-    m, n = len(key), len(lock)
-    expanded_len = n + 2 * (m - 1)
-    expanded_lock = [[0] * expanded_len for _ in range(expanded_len)]
-    
-    for i in range(n):
-        for j in range(n):
-            expanded_lock[m-1+i][m-1+j] = lock[i][j]  # 기존 자물쇠 값 이식
-    
-    for _ in range(4):  # 네 방향으로 열쇠 돌리기
-        key = key_rotation(key)
-        for a in range(n+m-1):
-            for b in range(n+m-1):
-                if check(key, expanded_lock, a, b, n, m):
+    for _ in range(4):
+        key = rotate(key)
+        
+        for x in range(size - M + 1):
+            for y in range(size - M + 1):
+                expanded_lock: list[list[int]] = [[0] * size for _ in range(size)]
+                
+                # 중앙에 자물쇠 넣기
+                for i in range(N):
+                    for j in range(N):
+                        expanded_lock[i + M -1][j + M -1] = lock[i][j]
+                
+                # 열쇠 맞추기
+                for i in range(M):
+                    for j in range(M):
+                        expanded_lock[x + i][y + j] += key[i][j]
+                
+                if check(expanded_lock, M, N):
                     return True
     
     return False
