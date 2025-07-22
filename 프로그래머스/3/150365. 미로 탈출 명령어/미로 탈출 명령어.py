@@ -1,40 +1,39 @@
+import sys
 from collections import deque
+sys.setrecursionlimit(10000)
 
-# 포인트는 네방향을 모두 넣지 않는 것
 def solution(n, m, x, y, r, c, k):
-    # 방향 정의 및 사전순 탐색 보장
-    direct = {(1, 0): 'd', (0, -1): 'l', (0, 1): 'r', (-1, 0): 'u'}
-
-    # 목표까지의 맨해튼 거리 계산
-    def calculate_distance(x1, y1):
-        return abs(x1 - (r - 1)) + abs(y1 - (c - 1))
-
-    # 목표까지 도달 가능한지 사전 검사
-    initial_distance = calculate_distance(x - 1, y - 1)
-    if initial_distance > k or (k - initial_distance) % 2 != 0:
+    directions: list[str] = ['d', 'l', 'r', 'u']
+    dx: list[int] = [1, 0, 0, -1]
+    dy: list[int] = [0, -1, 1, 0]
+    
+    dist: int = abs(x-r) + abs(y-c)
+    if dist > k or (k-dist) % 2 != 0:
         return "impossible"
-
-    # BFS 탐색 시작
-    queue = deque([(x - 1, y - 1, 0, "")])  # (현재 x, 현재 y, 이동 횟수, 경로)
-
-    while queue:
-        si, sj, cnt, route = queue.popleft()
-
-        # 목표 지점 도달 확인
-        if (si, sj) == (r - 1, c - 1):
-            if cnt == k:
-                return route
-            if (k - cnt) % 2:  # 남은 거리가 홀수면 도달 불가능
-                return "impossible"
-
-        # 사전순으로 네 방향 탐색
-        for di, dj in direct:
-            ni, nj = si + di, sj + dj
-            if 0 <= ni < n and 0 <= nj < m:
-                # 목표까지 도달 가능한지 확인 후 큐에 추가
-                next_distance = calculate_distance(ni, nj)
-                if next_distance + cnt + 1 <= k:
-                    queue.append((ni, nj, cnt + 1, route + direct[(di, dj)]))
-                    break  # 한 방향만 추가 (큐 크기 제한)
-
-    return "impossible"
+    
+    answer = None
+    found = False
+    def dfs(cx, cy, path, steps):
+        nonlocal answer, found
+        if found:
+            return
+        if steps == k:
+            if cx == r and cy == c:
+                answer = path
+                found = True
+            return
+        for i in range(4):
+            nx = cx + dx[i]
+            ny = cy + dy[i]
+            
+            if 1 <= nx <= n and 1 <= ny <= m:
+                remain = abs(nx - r) + abs(ny - c)
+                if remain > k - steps - 1:
+                    continue
+                if (k - steps - 1 - remain) % 2 != 0:
+                    continue
+                dfs(nx, ny, path + directions[i], steps + 1)
+    
+    dfs(x, y, "", 0)
+    
+    return answer if answer else "impossible"
