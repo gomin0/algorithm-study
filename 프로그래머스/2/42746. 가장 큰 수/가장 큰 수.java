@@ -1,25 +1,21 @@
 import java.util.*;
 
-public class Solution {
+class Solution {
     public String solution(int[] numbers) {
-        String[] arr = new String[numbers.length];
-
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = String.valueOf(numbers[i]);
+        int len = numbers.length;
+        String[] nums = new String[len];
+        for (int i = 0; i < len; i++) {
+            nums[i] = Integer.toString(numbers[i]);
         }
-
-        Arrays.sort(arr, (o1, o2) -> (o2 + o1).compareTo(o1 + o2)); // 문자열 더해서 내림차순 정렬
         
-        if (arr[0].equals("0")) {
-           return "0";
+        Arrays.sort(nums, (a, b) -> (b+a).compareTo(a+b));
+        if (nums[0].equals("0"))
+            return "0";
+        
+        StringBuilder sb = new StringBuilder();
+        for (String s : nums) {
+            sb.append(s);
         }
-
-        StringBuilder answer = new StringBuilder();
-
-        for (int i = 0; i < arr.length; i++) {
-            answer.append(arr[i]);
-        }
-
-        return answer.toString();
+        return sb.toString();
     }
 }
