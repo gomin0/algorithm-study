@@ -2,48 +2,46 @@ import java.util.*;
 
 class Solution {
     public int solution(int[] queue1, int[] queue2) {
-        int answer = 0;
+        Queue<Integer> q1 = new LinkedList<>();
+        Queue<Integer> q2 = new LinkedList<>();
+        int maxChange = 0;
+        
         long sum1 = 0;
+        for (int num : queue1) {
+            sum1 += num;
+            q1.offer(num);
+            maxChange++;
+        }
         long sum2 = 0;
-        Queue<Integer> que1 = new LinkedList<>();
-        Queue<Integer> que2 = new LinkedList<>();
-        
-        for (int q1 : queue1) {
-            sum1 += q1;
-            que1.offer(q1);
+        for (int num: queue2) {
+            sum2 += num;
+            q2.offer(num);
+            maxChange++;
         }
-        for (int q2 : queue2) {
-            sum2 += q2;
-            que2.offer(q2);
-        }
-        
         long sum = sum1 + sum2;
-        if (sum % 2 != 0) {
+        if (sum % 2 != 0)
             return -1;
-        }
+        sum /= 2;
+        maxChange *= 2;
         
-        long goal = sum / 2;
-        long maxChange = (queue1.length + queue2.length) * 2;
-        
-        while (sum1 != goal) {
-            
-            if (answer > maxChange) {
-                return -1;
+        int answer = 0;
+        while (answer < maxChange) {
+            if (sum1 == sum) {
+                return answer;
             }
-            
-            if (sum1 > goal) {
-                int num = que1.poll();
-                que2.offer(num);
+            else if (sum1 > sum) {
+                int num = q1.poll();
+                q2.offer(num);
                 sum1 -= num;
             }
-            else if (sum1 < goal) {
-                int num = que2.poll();
-                que1.offer(num);
+            else {
+                int num = q2.poll();
+                q1.offer(num);
                 sum1 += num;
             }
             answer++;
         }
         
-        return answer;
+        return -1;
     }
 }
