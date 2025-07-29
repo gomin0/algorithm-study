@@ -1,25 +1,27 @@
 import java.util.*;
+
 class Solution {
     public String solution(String number, int k) {
-        String answer = "";
+        Stack<Character> stack = new Stack<>();
         
-        char[] arr = number.toCharArray();
-        
-        StringBuilder sb = new StringBuilder();
-        
-        int idx = 0;
-        
-        for (int i = 0; i < arr.length - k; i++) {
-            char max = '0';
-            for (int j = idx; j <= i + k; j++) {
-                if (arr[j] > max) {
-                    max = arr[j];
-                    idx = j + 1;
-                }
+        for (int i = 0; i < number.length(); i++) {
+            char num = number.charAt(i);
+            while (!stack.isEmpty() && k > 0 && stack.peek() < num) {
+                stack.pop();
+                k--;
             }
-            sb.append(Character.toString(max));
+            stack.push(num);
         }
-         answer = sb.toString();
-        return answer;
+         
+        while (k > 0) {
+            stack.pop();
+            k--;
+        }
+        
+        StringBuilder answer = new StringBuilder();
+        for (int i = 0; i < stack.size(); i++) {
+            answer.append(stack.get(i));
+        }
+        return answer.toString();
     }
 }
