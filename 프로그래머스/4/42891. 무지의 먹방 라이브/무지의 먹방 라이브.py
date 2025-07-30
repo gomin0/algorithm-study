@@ -6,8 +6,8 @@ def solution(food_times, k):
     
     n = len(food_times)
     food = []
-    for i, food_time in enumerate(food_times):
-        heapq.heappush(food, (food_time, i+1))
+    for i, time in enumerate(food_times):
+        heapq.heappush(food, (time, i+1))
     
     prev = 0
     while food:
@@ -17,7 +17,6 @@ def solution(food_times, k):
             heapq.heappop(food)
             n -= 1
             continue
-        
         need = n * diff
         if need <= k:
             k -= need
@@ -25,5 +24,5 @@ def solution(food_times, k):
             heapq.heappop(food)
             n -= 1
         else:
-            food.sort(key=lambda x : x[1])
+            food.sort(key=lambda x:x[1])
             return food[k % n][1]
