@@ -1,29 +1,25 @@
-def check(binary):
-    mid = len(binary) // 2  # 루트 노드 위치
-    root = binary[mid]
+def is_possible_tree(tree_str):
+    if len(tree_str) == 1:
+        return True
     
-    if root == '0' and '1' in binary:
+    mid: int = len(tree_str) // 2
+    root: str = tree_str[mid]
+    left_sub: str = tree_str[:mid]
+    right_sub: str = tree_str[mid+1:]
+    
+    if root == '0' and ('1' in left_sub or '1' in right_sub):
         return False
-    
-    if len(binary) > 1:
-        return check(binary[:mid]) and check(binary[mid+1:])  # 서브 트리에 대해 재귀
-    
-    return True
+    return is_possible_tree(left_sub) and is_possible_tree(right_sub)
 
 def solution(numbers):
     answer = []
-    
     for number in numbers:
-        binary = bin(number)[2:]  # 앞에 0b 떼기
+        bin_str: str = f"{number:b}"
+        length: int = len(bin_str)
+        size: int = 1
+        while size < length:
+            size = size * 2 + 1
+        bin_str = bin_str.zfill(size)
+        answer.append(1) if is_possible_tree(bin_str) else answer.append(0)
         
-        length = len(binary)
-        tree_size = 1
-        while tree_size -1 < length:
-            tree_size *= 2
-        tree_size -= 1  # 2^n - 1
-        
-        full_binary = binary.zfill(tree_size)
-        
-        answer.append(1 if check(full_binary) else 0)
-    
     return answer
