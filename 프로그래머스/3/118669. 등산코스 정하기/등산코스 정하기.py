@@ -2,40 +2,35 @@ import heapq
 from collections import defaultdict
 
 def solution(n, paths, gates, summits):
-    answer = []
-    
     graph = defaultdict(list)
+    for n1, n2, d in paths:
+        graph[n1].append((n2, d))
+        graph[n2].append((n1, d))
     
-    for a, b, c in paths:
-        graph[a].append((b, c))
-        graph[b].append((a, c))
-
+    # in 빠르게 하기 위함
     summits_set = set(summits)
-    
-    pq = []
-    intensity = [float('inf') for _ in range(n+1)]
+    intensity = [float('inf')] * (n + 1)
+    hq = []
     
     for gate in gates:
-        heapq.heappush(pq, (0, gate))
+        heapq.heappush(hq, (0, gate))
         intensity[gate] = 0
-
-    while pq:
-        cost, node = heapq.heappop(pq)
-        
-        if cost > intensity[node]:
+    
+    while hq:
+        dist, node = heapq.heappop(hq)
+        if node in summits_set or dist > intensity[node]:
             continue
-        if node in summits_set:
-            continue
-        
-        for next_node, next_cost in graph[node]:
-            new_intensity = max(cost, next_cost)
+        for next_node, next_dist in graph[node]:
+            new_intensity = max(dist, next_dist)
             if new_intensity < intensity[next_node]:
                 intensity[next_node] = new_intensity
-                heapq.heappush(pq, (new_intensity, next_node))
+                heapq.heappush(hq, (new_intensity, next_node))
     
-    best_summit = (-1, float('inf'))
+    min_intensity = float('inf')
+    min_summit = 0
     for summit in sorted(summits):
-        if intensity[summit] < best_summit[1]:
-            best_summit = (summit, intensity[summit])
-    
-    return list(best_summit)
+        if intensity[summit] < min_intensity:
+            min_intensity = intensity[summit]
+            min_summit = summit
+            
+    return [min_summit, min_intensity]
