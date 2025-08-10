@@ -1,6 +1,4 @@
-def solution(n, computers):
-    answer: int = 0
-    
+def solution(n, computers):    
     def dfs(start):
         stack: list[int] = [start]
         visited.add(start)
@@ -11,6 +9,7 @@ def solution(n, computers):
                     stack.append(i)
                     visited.add(i)
     
+    answer: int = 0
     visited: set[int] = set()
     for i in range(n):
         if i not in visited:
