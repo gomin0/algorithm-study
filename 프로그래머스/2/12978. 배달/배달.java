@@ -3,13 +3,15 @@ import java.util.*;
 class Solution {
     static class Node implements Comparable<Node> {
         int to, cost;
+        
         Node(int to, int cost) {
             this.to = to;
             this.cost = cost;
         }
+        
         @Override
-        public int compareTo(Node o) {
-            return this.cost - o.cost;
+        public int compareTo(Node n) {
+            return this.cost - n.cost;
         }
     }
     
@@ -19,10 +21,10 @@ class Solution {
             graph.add(new ArrayList<>());
         }
         
-        for (int[] r : road) {
-            int a = r[0], b = r[1], c = r[2];
-            graph.get(a).add(new Node(b, c));
-            graph.get(b).add(new Node(a, c));
+        for (int[] info : road) {
+            int a = info[0], b = info[1], d = info[2];
+            graph.get(a).add(new Node(b, d));
+            graph.get(b).add(new Node(a, d));
         }
         
         int[] dist = new int[N+1];
@@ -34,23 +36,19 @@ class Solution {
         
         while (!pq.isEmpty()) {
             Node node = pq.poll();
-            if (node.cost > dist[node.to])
-                continue;
+            if (node.cost > dist[node.to]) continue;
             for (Node nextNode : graph.get(node.to)) {
-                int nextDist = node.cost + nextNode.cost;
-                if (nextDist < dist[nextNode.to]) {
-                    dist[nextNode.to] = nextDist;
-                    pq.offer(new Node(nextNode.to, nextDist));
+                int nextCost = node.cost + nextNode.cost;
+                if (dist[nextNode.to] > nextCost) {
+                    dist[nextNode.to] = nextCost;
+                    pq.offer(new Node(nextNode.to, nextCost));
                 }
             }
         }
         
         int answer = 0;
-        for (int i = 0; i <= N; i++) {
-            if (dist[i] <= K)
-                answer++;
-        }
-
+        for (int i = 0; i <= N; i++)
+            if (dist[i] <= K) answer++;
         return answer;
     }
 }
