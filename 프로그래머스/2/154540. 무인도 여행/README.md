@@ -1,10 +1,10 @@
 # [level 2] 무인도 여행 - 154540 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/154540) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/154540?language=java) 
 
 ### 성능 요약
 
-메모리: 10.5 MB, 시간: 22.97 ms
+메모리: 74 MB, 시간: 12.76 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 08월 26일 10:57:24
+2025년 08월 18일 12:04:07
 
 ### 문제 설명
 
