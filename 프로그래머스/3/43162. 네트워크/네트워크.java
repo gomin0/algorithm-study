@@ -1,58 +1,56 @@
-//bfs
 import java.util.*;
+
 class Solution {
-    static boolean visited[];
+    static boolean[] visited;
     public int solution(int n, int[][] computers) {
-        int answer = 0;
-        visited = new boolean[n];
-        
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int i = 0; i < n; i++) graph.put(i, new ArrayList<>());
         for (int i = 0; i < n; i++) {
-            if(visited[i] == false) {
-                bfs(i, computers, n);
+            for (int j = 0; j < n; j++) {
+                if (i != j && computers[i][j] == 1)
+                    graph.get(i).add(j);
+            }
+        }
+        
+        visited = new boolean[n];
+        int answer = 0;
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                bfs(n, computers, i, graph);
+                // dfs(n, computers, i, graph);
                 answer++;
             }
         }
         return answer;
     }
-    static void bfs(int i, int[][] computers, int n) {
+    
+    private void bfs(int n, int[][] computers, int start, Map<Integer, List<Integer>> graph) {
         Queue<Integer> q = new LinkedList<>();
-        q.offer(i);
-        visited[i] = true;
-        
+        q.add(start);
+        visited[start] = true;
         while (!q.isEmpty()) {
-            int a = q.poll();
-            for (int j = 0; j < n; j++) {
-                if (visited[j] == false && computers[a][j] == 1) {
-                    visited[j] = true;
-                    q.offer(j);
+            int node = q.poll();
+            for (int nextNode : graph.get(node)) {
+                if (!visited[nextNode]) {
+                    q.add(nextNode);
+                    visited[nextNode] = true;
+                }
+            }
+        }
+    }
+    
+    private void dfs(int n, int[][] computers, int start,  Map<Integer, List<Integer>> graph) {
+        Stack<Integer> s = new Stack<>();
+        s.push(start);
+        visited[start] = true;
+        while (!s.isEmpty()) {
+            int node = s.pop();
+            for (int nextNode : graph.get(node)) {
+                if (!visited[nextNode]) {
+                    s.push(nextNode);
+                    visited[nextNode] = true;
                 }
             }
         }
     }
 }
-
-//dfs
-// class Solution {
-//     static boolean visited[];    
-//     public int solution(int n, int[][] computers) {
-//         int answer = 0;
-//         visited = new boolean[n];
-        
-//         for (int i = 0; i < n; i++) {
-//             if (visited[i] == false) {
-//                 answer++;
-//                 dfs(i, computers, n);
-//             }
-//         }
-//         return answer;
-//     }
-    
-//     static void dfs(int i, int[][] computers, int n) {
-//         visited[i] = true;
-//         for (int j = 0; j < n; j++) {
-//             if (visited[j] == false && computers[i][j] == 1) {
-//                 dfs(j, computers, n);
-//             }
-//         }
-//     }
-// }
