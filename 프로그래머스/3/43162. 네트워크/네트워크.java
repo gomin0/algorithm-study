@@ -16,8 +16,8 @@ class Solution {
         int answer = 0;
         for (int i = 0; i < n; i++) {
             if (!visited[i]) {
-                bfs(n, computers, i, graph);
-                // dfs(n, computers, i, graph);
+                // bfs(n, computers, i, graph);
+                dfs(n, computers, i, graph);
                 answer++;
             }
         }
