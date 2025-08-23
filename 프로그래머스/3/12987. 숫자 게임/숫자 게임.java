@@ -5,15 +5,15 @@ class Solution {
         PriorityQueue<Integer> pq = new PriorityQueue<>();
         for (int num : B) pq.offer(num);
         Arrays.sort(A);
-        int i = 0;
+        int idx = 0;
         int n = A.length;
         int answer = 0;
-        while (i < n && !pq.isEmpty()) {
-            int aNum = A[i];
+        while (idx < n && !pq.isEmpty()) {
+            int aNum = A[idx];
             int bNum = pq.poll();
             if (aNum < bNum) {
                 answer++;
-                i++;
+                idx++;
             }
         }
         return answer;
