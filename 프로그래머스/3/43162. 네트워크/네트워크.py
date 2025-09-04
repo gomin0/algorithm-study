@@ -1,19 +1,28 @@
-def solution(n, computers):    
-    def dfs(start):
-        stack: list[int] = [start]
-        visited.add(start)
-        while stack:
-            node: int = stack.pop()
-            for i in range(n):
-                if computers[node][i] == 1 and i not in visited:
-                    stack.append(i)
-                    visited.add(i)
+from collections import deque, defaultdict
+
+def solution(n, computers):
+    visited = set()
+    network = defaultdict(list)
+    for i in range(n):
+        for j in range(n):
+            if i != j and computers[i][j] == 1:
+                network[i].append(j)
+                network[j].append(i)
+    def bfs(n):
+        q = deque()
+        q.append(n)
+        visited.add(n)
+        while q:
+            node = q.popleft()
+            for next_node in network[node]:
+                if next_node not in visited:
+                    q.append(next_node)
+                    visited.add(next_node)
     
-    answer: int = 0
-    visited: set[int] = set()
+    answer = 0
     for i in range(n):
         if i not in visited:
-            dfs(i)
             answer += 1
-            
+            bfs(i)
+    
     return answer
