@@ -1,10 +1,10 @@
 # [level 2] 연속된 부분 수열의 합 - 178870 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/178870?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/178870?language=python3) 
 
 ### 성능 요약
 
-메모리: 149 MB, 시간: 95.05 ms
+메모리: 50.6 MB, 시간: 292.83 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 07월 31일 13:59:32
+2025년 09월 05일 11:25:05
 
 ### 문제 설명
 
