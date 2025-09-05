@@ -1,23 +1,23 @@
-from collections import defaultdict
-
 def solution(gems):
-    answer: list[int] = [0, len(gems)-1]
-    
-    gem_types: int = len(set(gems))
-    gem_dict: defaultdict[str, int] = defaultdict(int)
-    
-    i: int
-    j: int
-    i = j = 0
-    while j < len(gems):
-        gem_dict[gems[j]] += 1
-        while len(gem_dict) == gem_types:
-            if (answer[1] - answer[0]) > j - i:
-                answer = [i, j]
-            gem_dict[gems[i]] -= 1
-            if gem_dict[gems[i]] == 0:
-                del gem_dict[gems[i]]
-            i += 1
-        j += 1
-    
-    return [answer[0] + 1, answer[1] + 1]
+    n = len(gems)
+    gem_type: int = len(set(gems))
+    length = float('inf')
+    answer = []
+    bag = dict()
+    left = right = 0
+    while right < n:
+        if gems[right] in bag:
+            bag[gems[right]] += 1
+        else:
+            bag[gems[right]] = 1
+        while len(bag) == gem_type:
+            if right - left < length:
+                length = right - left
+                answer = [left+1, right+1]
+            bag[gems[left]] -= 1
+            if bag[gems[left]] == 0:
+                del bag[gems[left]]
+            left += 1
+        right += 1
+            
+    return answer
