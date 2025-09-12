@@ -9,6 +9,7 @@ class Solution {
             int val2 = (i % 2 == 0 ? -1 : 1) * sequence[i];
             dp1 = Math.max(val1, dp1 + val1);
             dp2 = Math.max(val2, dp2 + val2);
+            
             answer = Math.max(answer, Math.max(dp1, dp2));
         }
         return answer;
