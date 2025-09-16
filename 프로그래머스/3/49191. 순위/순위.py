@@ -1,18 +1,17 @@
 def solution(n, results):
-    graph: list[list[False]] = [[False] * n for _ in range(n)]
-    
+    graph = [[False] * n for _ in range(n)]
     for i in range(n):
         graph[i][i] = True
-    for a, b in results:
-        graph[a-1][b-1] = True
+    for w, l in results:
+        graph[w-1][l-1] = True
     
     for k in range(n):
         for i in range(n):
             for j in range(n):
                 if graph[i][k] and graph[k][j]:
                     graph[i][j] = True
-    
-    answer: int = 0
+
+    answer = 0
     for i in range(n):
         count = 0
         for j in range(n):
@@ -20,5 +19,5 @@ def solution(n, results):
                 count += 1
         if count == n:
             answer += 1
-    
+            
     return answer
