@@ -2,10 +2,14 @@ import sys
 from collections import deque
 sys.setrecursionlimit(10000)
 
+# 격자 크기 n, m
+# 출발 위치 x, y
+# 탈출 지점 r, c
+# 이동 거리 k
 def solution(n, m, x, y, r, c, k):
-    directions: list[str] = ['d', 'l', 'r', 'u']
-    dx: list[int] = [1, 0, 0, -1]
-    dy: list[int] = [0, -1, 1, 0]
+    directions = ['d', 'l', 'r', 'u']
+    dx = [1, 0, 0, -1]
+    dy = [0, -1, 1, 0]
     
     dist: int = abs(x-r) + abs(y-c)
     if dist > k or (k-dist) % 2 != 0:
