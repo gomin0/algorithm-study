@@ -9,10 +9,11 @@ def solution(k, room_number):
         for p in path:
             next_room[p] = room
         return room
-    
+        
     answer = []
     for room in room_number:
-        my_room = find(room)
-        answer.append(my_room)
-        next_room[my_room] = find(my_room+1)
+        r = find(room)
+        answer.append(r)
+        next_room[r] = find(r+1)
+        
     return answer
