@@ -1,5 +1,4 @@
--- 코드를 입력하세요
-SELECT book_id, DATE_FORMAT(published_date, '%Y-%m-%d') as published_date
+select book_id, date_format(published_date, '%Y-%m-%d') as date_format
 from book
 where year(published_date) = 2021 and category = '인문'
-order by published_date
+order by published_date;
