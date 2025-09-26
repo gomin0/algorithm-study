@@ -1,11 +1,9 @@
 from collections import defaultdict
 import heapq
 
-
 def dijkstra(graph, N, start):
     distance = {i: float('inf') for i in range(1, N+1)}
     distance[start] = 0
-    
     hq = []
     heapq.heappush(hq, (0, start))
     while hq:
@@ -17,21 +15,16 @@ def dijkstra(graph, N, start):
             if distance[next_node] > new_dist:
                 distance[next_node] = new_dist
                 heapq.heappush(hq, (new_dist, next_node))
-                
     return distance
 
-
-def solution(N, road, K):    
+def solution(N, road, K):
     graph = defaultdict(list)
-    
     for a, b, c in road:
         graph[a].append((c, b))
         graph[b].append((c, a))
-    
     distance = dijkstra(graph, N, 1)
     answer = 0
     for i in range(1, N+1):
         if distance[i] <= K:
             answer += 1
-
     return answer
