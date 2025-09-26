@@ -1,30 +1,24 @@
-from collections import defaultdict
-import heapq
+def floyd(N, graph):
+    for k in range(1, N+1):
+        for i in range(1, N+1):
+            for j in range(1, N+1):
+                graph[i][j] = min(graph[i][j], graph[i][k] + graph[k][j])
+    return graph
 
-def dijkstra(graph, N, start):
-    distance = {i: float('inf') for i in range(1, N+1)}
-    distance[start] = 0
-    hq = []
-    heapq.heappush(hq, (0, start))
-    while hq:
-        now_dist, now_node = heapq.heappop(hq)
-        if now_dist > distance[now_node]:
-            continue
-        for next_dist, next_node in graph[now_node]:
-            new_dist = now_dist + next_dist
-            if distance[next_node] > new_dist:
-                distance[next_node] = new_dist
-                heapq.heappush(hq, (new_dist, next_node))
-    return distance
 
 def solution(N, road, K):
-    graph = defaultdict(list)
+    answer = 0
+    graph = [[float('inf')] * (N+1) for _ in range(N+1)]
+    for i in range(1, N+1):
+        graph[i][i] = 0
     for a, b, c in road:
-        graph[a].append((c, b))
-        graph[b].append((c, a))
-    distance = dijkstra(graph, N, 1)
+        graph[a][b] = min(graph[a][b], c)
+        graph[b][a] = min(graph[b][a], c)
+    graph = floyd(N, graph)
+    
     answer = 0
     for i in range(1, N+1):
-        if distance[i] <= K:
+        if graph[1][i] <= K:
             answer += 1
+
     return answer
