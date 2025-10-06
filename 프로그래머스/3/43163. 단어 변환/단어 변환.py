@@ -1,34 +1,39 @@
-from collections import deque
+from collections import defaultdict, deque
 
-def check_convertable(word1, word2):
-    diff: int = 0
-    for c1, c2 in zip(word1, word2):
-        if c1 != c2:
-            diff += 1
-    return diff == 1
+
+def check(word1, word2):
+    if len(word1) != len(word2):
+        return False
+    count = 0
+    for w1, w2 in zip(word1, word2):
+        if w1 != w2:
+            count += 1
+    return count == 1
 
 
 def solution(begin, target, words):
-    answer: int = 0
+    load = defaultdict(list)
+    for w1 in words:
+        for w2 in words:
+            if w1 == w2:
+                continue
+            if check(w1, w2):
+                load[w1].append(w2)
+                load[w2].append(w1)
+    for w in words:
+        if check(begin, w):
+            load[begin].append(w)
     
-    def bfs(start):
-        queue: list[str] = deque([(start, 0)])
-        visited.add(start)
-        
-        while queue:
-            now: str
-            step: int
-            now, step = queue.popleft()
-            if now == target:
-                return step
-            
-            for word in words:
-                if word not in visited and check_convertable(now, word):
-                    visited.add(word)
-                    queue.append((word, step + 1))
-        return 0
-    
-    visited: set[str] = set()
-    answer = bfs(begin)
-    
-    return answer
+    visited = set()
+    q = deque()
+    q.append((begin, 0))
+    visited.add(begin)
+    while q:
+        word, count = q.popleft()
+        if word == target:
+            return count
+        for next_word in load[word]:
+            if next_word not in visited:
+                q.append((next_word, count + 1))
+                visited.add(next_word)
+    return 0
