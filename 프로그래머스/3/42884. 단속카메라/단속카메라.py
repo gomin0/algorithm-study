@@ -1,15 +1,11 @@
 def solution(routes):
-    answer: int = 1
-    routes.sort(key=lambda x: x[1])
-    camera_point: int = routes[0][1]
-    
+    routes.sort(key=lambda x:x[1])
+    answer = 1
+    camera = routes[0][1]
     for i in range(1, len(routes)):
-        start: int
-        end: int
-        start, end = routes[i]
-        
-        if camera_point < start:
-            answer += 1
-            camera_point = end
+        if routes[i][0] <= camera:
+            continue
+        camera = routes[i][1]
+        answer += 1
     
     return answer
