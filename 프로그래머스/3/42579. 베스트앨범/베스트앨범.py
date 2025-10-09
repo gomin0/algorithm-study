@@ -1,33 +1,28 @@
 from collections import defaultdict
 
 def solution(genres, plays):
-    answer: list[int] = []
-    genres_plays: defaultdict[str, int] = defaultdict(int)
-    genres_history: list[tuple[int, str, int]] = []
-    for i in range(len(genres)):
-        genres_plays[genres[i]] += plays[i]
-        genres_history.append((i, genres[i], plays[i]))
+    total_plays = defaultdict(int)
+    genres_play = defaultdict(list)
+    n = len(genres)
+    for i in range(n):
+        total_plays[genres[i]] += plays[i]
+        genres_play[genres[i]].append((plays[i], i))
     
-    genres_history.sort(key=lambda x: (-x[2], x[0]))
-    genres_dict: defaultdict[str, list[int]] = defaultdict(list)
+    for genre in genres_play:
+        genres_play[genre].sort(key = lambda x:(-x[0], x[1]))
+    total_genres = []
+    for genre in total_plays:
+        total_genres.append((total_plays[genre], genre))
+    total_genres.sort(reverse = True)
     
-    for gh in genres_history:
-        idx: int
-        genre: str
-        play: int
-        idx, genre, play = gh
-        genres_dict[genre].append(idx)
-    
-    sorted_genres: list[srt] = sorted(
-        genres_plays, 
-        key=lambda k: genres_plays[k],
-        reverse=True
-    )
-    
-    for genres in sorted_genres:
-        idx_in_genres: list[int] = genres_dict[genres]
-        answer.append(idx_in_genres[0])
-        if len(idx_in_genres) >= 2:
-            answer.append(idx_in_genres[1])
+    answer = []
+    for i in range(len(total_genres)):
+        genre = total_genres[i][1]
+        count = 0
+        for best in genres_play[genre]:
+            answer.append(best[1])
+            count += 1
+            if count == 2:
+                break
     
     return answer
