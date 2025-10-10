@@ -1,12 +1,11 @@
 def solution(stones, k):
-    answer: int = 0
-    left: int = 0
-    right: int = max(stones)
-    
+    answer = 0
+    left = 0
+    right = max(stones)
     while left <= right:
-        mid: int = (left + right) // 2
-        count: int = 0
-        possible: bool = True
+        mid = (left + right) // 2
+        possible = True
+        count = 0
         for stone in stones:
             if stone < mid:
                 count += 1
@@ -15,7 +14,6 @@ def solution(stones, k):
                     break
             else:
                 count = 0
-                
         if possible:
             answer = mid
             left = mid + 1
