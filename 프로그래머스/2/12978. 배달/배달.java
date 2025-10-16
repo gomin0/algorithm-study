@@ -1,54 +1,63 @@
 import java.util.*;
 
 class Solution {
-    static class Node implements Comparable<Node> {
-        int to, cost;
+    static List<List<Node>> graph;
+    static int INF = Integer.MAX_VALUE;
+    
+    class Node implements Comparable<Node> {
+        int n;
+        int w;
         
-        Node(int to, int cost) {
-            this.to = to;
-            this.cost = cost;
+        Node(int n, int w) {
+            this.n = n;
+            this.w = w;
         }
         
         @Override
-        public int compareTo(Node n) {
-            return this.cost - n.cost;
+        public int compareTo(Node node) {
+            return this.w - node.w;
         }
     }
     
     public int solution(int N, int[][] road, int K) {
-        List<List<Node>> graph = new ArrayList<>();
+        graph = new ArrayList<>();
         for (int i = 0; i <= N; i++) {
             graph.add(new ArrayList<>());
         }
         
-        for (int[] info : road) {
-            int a = info[0], b = info[1], d = info[2];
-            graph.get(a).add(new Node(b, d));
-            graph.get(b).add(new Node(a, d));
+        for (int[] r : road) {
+            int a = r[0], b = r[1], w = r[2];
+            graph.get(a).add(new Node(b, w));
+            graph.get(b).add(new Node(a, w));
         }
         
-        int[] dist = new int[N+1];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-        dist[1] = 0;
+        int[] dist = dijkstra(1, N);
+        int answer = 0;
+        for (int i = 0; i <= N; i++) {
+            if (dist[i] <= K) answer++;
+        }
+
+        return answer;
+    }
+    
+    private int[] dijkstra(int start, int n) {
+        int[] dist = new int[n + 1];
+        Arrays.fill(dist, INF);
+        dist[start] = 0;
         
         PriorityQueue<Node> pq = new PriorityQueue<>();
-        pq.offer(new Node(1, 0));
-        
+        pq.offer(new Node(start, 0));
         while (!pq.isEmpty()) {
             Node node = pq.poll();
-            if (node.cost > dist[node.to]) continue;
-            for (Node nextNode : graph.get(node.to)) {
-                int nextCost = node.cost + nextNode.cost;
-                if (dist[nextNode.to] > nextCost) {
-                    dist[nextNode.to] = nextCost;
-                    pq.offer(new Node(nextNode.to, nextCost));
+            if (node.w > dist[node.n]) continue;
+            for (Node nextNode : graph.get(node.n)) {
+                int cost = node.w + nextNode.w;
+                if (dist[nextNode.n] > cost) {
+                    dist[nextNode.n] = cost;
+                    pq.offer(new Node(nextNode.n, cost));
                 }
             }
         }
-        
-        int answer = 0;
-        for (int i = 0; i <= N; i++)
-            if (dist[i] <= K) answer++;
-        return answer;
+        return dist;
     }
 }
